@@ -13,6 +13,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { AttendanceEntity } from 'src/components/attendance/entity/attendance.entity';
 import { UserEntity } from 'src/components/user/entity/user.entity';
 import { BatchDetailsEntity } from 'src/components/batch/entity/batch.details.entity';
+import { TokenEntity } from 'src/components/user/entity/token.entity';
 
 @Module({
   imports: [
@@ -28,7 +29,7 @@ import { BatchDetailsEntity } from 'src/components/batch/entity/batch.details.en
       username: 'root',
       password: 'Root@72003',
       database: 'college_db',
-      entities: [StudentEntity, DepartmentEntity, BatchEntity, AttendanceEntity, UserEntity, BatchDetailsEntity], // Specify your entities
+      entities: [StudentEntity, DepartmentEntity, BatchEntity, AttendanceEntity, UserEntity, BatchDetailsEntity, TokenEntity], // Specify your entities
       synchronize: true,
     }),
   ],

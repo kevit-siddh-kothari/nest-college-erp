@@ -1,28 +1,32 @@
-import { Injectable } from "@nestjs/common";
-import {IsEmail, IsEnum, IsNotEmpty, IsNumber, IsString, Matches, MaxLength, MinLength } from "class-validator";
-import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
-import { v4 as uuidv4 } from 'uuid';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { TokenEntity } from './token.entity'; // Adjust the path as needed
+import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
 
-enum UserRole{
+enum UserRole {
     Admin = 'admin',
     Student = 'student',
-    StaffMember = 'StaffMember'
+    StaffMember = 'staffMember'
 }
 
-@Injectable()
 @Entity('User')
 export class UserEntity {
-
-    @PrimaryGeneratedColumn("uuid")
+    @PrimaryGeneratedColumn('uuid')
     id: string;
-    
-    @Column({unique: true})
+
+    @Column({ unique: true })
+    @IsString()
+    @IsNotEmpty()
     username: string;
 
     @Column()
+    @IsString()
+    @IsNotEmpty()
     password: string;
 
-    @Column()
+    @Column({ type: 'enum', enum: UserRole })
+    @IsEnum(UserRole)
     role: UserRole;
-    
-};
+
+    @OneToMany(() => TokenEntity, (token) => token.user)
+    tokens: TokenEntity[];
+}

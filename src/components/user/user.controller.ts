@@ -1,34 +1,32 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseFilters } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.validation';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { HttpExceptionFilter } from 'src/exception/http-exception.filter';
 
 @Controller('user')
+@UseFilters(HttpExceptionFilter)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  @Post('/signup')
+  signUp(@Body() createUserDto: CreateUserDto) {
+    return this.userService.signUp(createUserDto);
   }
 
-  @Get()
-  findAll() {
+  @Post('/login')
+  logIn() {
     return this.userService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @Post('/logout')
+  logOut(@Param('id') id: string) {
     return this.userService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  @Post('/logoutAll')
+  logoutAll(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
-  }
 }

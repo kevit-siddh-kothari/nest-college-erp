@@ -32,6 +32,8 @@ export class CustomLoggerService extends Logger implements LoggerService {
                 }),
             ],
         });
+
+     
     }
 
     log(message: string) {
@@ -40,8 +42,8 @@ export class CustomLoggerService extends Logger implements LoggerService {
     }
 
     error(message: string, trace: string) {
-        super.error(message, trace);
         this.fileLogger.error(message, { trace });
+        super.error(message, trace);
     }
 
     warn(message: string) {
