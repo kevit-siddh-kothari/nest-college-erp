@@ -17,11 +17,12 @@ export class UserEntity {
     id: string;
     
     @Column({unique: true})
-    readonly username: string;
+    username: string;
 
     @Column()
-    readonly password: string;
+    password: string;
 
     @Column()
-    readonly role: UserRole;
+    role: UserRole;
+    
 };

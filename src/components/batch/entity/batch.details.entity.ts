@@ -9,24 +9,24 @@ export class BatchDetailsEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @ManyToOne(()=>BatchEntity, (batch) => batch.yearid)
+    @ManyToOne(()=>BatchEntity, (batch) => batch.yearId)
     @JoinColumn({name:'yearid'})
     batch: BatchEntity
 
-    @ManyToOne(()=> DepartmentEntity, (department) => department.batchdetails)
+    @ManyToOne(()=> DepartmentEntity, (department) => department.batchDetails)
     @JoinColumn({name:'departmentid'})
     department: DepartmentEntity;
 
     @IsNumber()
     @Column()
-    occupiedseats: number;
+    occupiedSeats: number;
 
     @IsNumber()
     @Column()
-    availableseats: number;
+    availableSeats: number;
 
     @IsNumber()
     @Column()
-    totalstudentsIntake: number;
+    totalStudentsIntake: number;
 
 }

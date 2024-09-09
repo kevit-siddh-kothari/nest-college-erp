@@ -12,7 +12,7 @@ import { BatchEntity } from '../components/batch/entity/batch.year.entity';
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { AttendanceEntity } from 'src/components/attendance/entity/attendance.entity';
 import { UserEntity } from 'src/components/user/entity/user.entity';
-import { BatchDetailsEntity } from 'src/components/batch/entity/batch.details';
+import { BatchDetailsEntity } from 'src/components/batch/entity/batch.details.entity';
 
 @Module({
   imports: [

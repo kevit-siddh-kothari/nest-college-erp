@@ -15,5 +15,4 @@ export class AttendanceEntity {
     @ManyToOne(()=> StudentEntity, (student) => student.attendance )
     @JoinTable({name: 'studentid'})
     student: StudentEntity;
-
 };

@@ -13,13 +13,13 @@ export class StudentEntity {
   readonly username: string;
 
   @Column()
-  readonly name: string;
+  name: string;
 
   @Column()
-  readonly phno: string;
+  phnoName: string;
 
   @Column()
-  readonly currentsem: number;
+  currentSem: string;
 
   // Many students belong to one department
   @ManyToOne(() => DepartmentEntity, (department) => department.students)

@@ -1,10 +1,11 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, PrimaryColumn } from 'typeorm';
 import { StudentEntity } from '../../student/entity/student.entity';
-import { BatchDetailsEntity } from './batch.details';
+import { BatchDetailsEntity } from './batch.details.entity';
 import { IsNumber } from 'class-validator';
 
 @Entity('batch')
 export class BatchEntity {
+
   @PrimaryGeneratedColumn('uuid')
   id: string;  // Primary key
 
@@ -16,6 +17,7 @@ export class BatchEntity {
   students: StudentEntity[];  // Inverse relationship (One batch has many students)
 
   @OneToMany(() => BatchDetailsEntity , (batchdetails) => batchdetails.batch)
-  yearid: BatchDetailsEntity[];  // Inverse relationship (One batchyear has many batchdetails)
+  yearId: BatchDetailsEntity[];  // Inverse relationship (One batchyear has many batchdetails)
+
 }
 

@@ -9,7 +9,7 @@ enum UserRole{
 }
 
 
-export class UserValidator {
+export class CreateUserDto {
     
     @IsNotEmpty({message:`Username must not be Empty`})
     @IsString({message:`Username must not be Empty`})

@@ -1,9 +1,10 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { StudentEntity } from '../../student/entity/student.entity';
-import { BatchDetailsEntity } from 'src/components/batch/entity/batch.details';
+import { BatchDetailsEntity } from 'src/components/batch/entity/batch.details.entity';
 
 @Entity('department')
 export class DepartmentEntity {
+  
   @PrimaryGeneratedColumn('uuid')
   id: string;  // Primary key
 
@@ -14,5 +15,6 @@ export class DepartmentEntity {
   students: StudentEntity[];  // Inverse relationship (One department has many students)
 
   @OneToMany(() => BatchDetailsEntity, (batchdetails) => batchdetails.department)
-  batchdetails: BatchDetailsEntity[];
+  batchDetails: BatchDetailsEntity[];
+
 }
