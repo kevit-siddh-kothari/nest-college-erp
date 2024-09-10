@@ -1,32 +1,44 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseFilters } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseFilters, Request, Response } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.validation';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { HttpExceptionFilter } from 'src/exception/http-exception.filter';
+import { TokenEntity } from './entity/token.entity';
+
+interface AuthenticatedRequest extends Request {
+  user?: TokenEntity;
+  token?: string;
+}
 
 @Controller('user')
-@UseFilters(HttpExceptionFilter)
+// @UseFilters(HttpExceptionFilter)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+ 
+
   @Post('/signup')
-  signUp(@Body() createUserDto: CreateUserDto) {
-    return this.userService.signUp(createUserDto);
+  public async signUp(@Body() createUserDto: CreateUserDto) {
+    console.log('hi');
+    return await this.userService.signUp(createUserDto);
   }
 
   @Post('/login')
-  logIn() {
-    return this.userService.findAll();
+  logIn(@Body() user: UpdateUserDto) {
+    return this.userService.logIn(user);
   }
 
   @Post('/logout')
-  logOut(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+  public async logOut(@Request() req: AuthenticatedRequest, @Response() res) {
+    await this.userService.logOut(req, res);
+    res.send(`logged out sucessfully !`)
   }
 
   @Post('/logoutAll')
-  logoutAll(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  public async logoutAll(@Request() req: AuthenticatedRequest, @Response() res) {
+    console.log(req.user);
+    await this.userService.logOutAll(req, res);
+    res.send(`logged out from all devices !`);
   }
 
 }

@@ -1,15 +1,21 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { UserEntity } from './entity/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CustomLoggerService } from 'src/utils/logger.services';
 import { UserRepository } from './user.repository';
+import { TokenEntity } from './entity/token.entity';
+import { AuthenticationMiddleware } from 'src/middlewear/auth.middlewar';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([UserEntity])],
+  imports:[TypeOrmModule.forFeature([UserEntity, TokenEntity])],
   controllers: [UserController],
   providers: [UserService, CustomLoggerService, UserRepository],
   exports:[TypeOrmModule]
 })
-export class UserModule {}
+export class UserModule {configure(consumer: MiddlewareConsumer) {
+  consumer
+    .apply(AuthenticationMiddleware)
+    .forRoutes({ path: 'user/logout', method: RequestMethod.POST }, { path: 'user/logoutAll', method: RequestMethod.POST }); // Apply the middleware globally or to specific routes
+}}

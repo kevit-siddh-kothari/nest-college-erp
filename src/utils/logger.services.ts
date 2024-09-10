@@ -32,8 +32,6 @@ export class CustomLoggerService extends Logger implements LoggerService {
                 }),
             ],
         });
-
-     
     }
 
     log(message: string) {

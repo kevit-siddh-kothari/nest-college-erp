@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinTable } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinTable, JoinColumn } from 'typeorm';
 import { UserEntity } from './user.entity'; // Adjust the path as needed
 import { IsString } from 'class-validator';
 
@@ -7,11 +7,11 @@ export class TokenEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column()
     @IsString()
+    @Column()
     token: string;
 
-    @ManyToOne(() => UserEntity, user => user.tokens)
-    @JoinTable({name:'userId'})
+    @ManyToOne(() => UserEntity, user => user.tokens, { onDelete: 'CASCADE' })
+    @JoinColumn({name:'userId'})
     user: UserEntity;
 }
