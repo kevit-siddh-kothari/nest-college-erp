@@ -1,26 +1,34 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAttendanceDto } from './dto/create-attendance.dto';
 import { UpdateAttendanceDto } from './dto/update-attendance.dto';
+import { AttendanceRepository } from './attendance.repository';
+import { AttendanceEntity } from './entity/attendance.entity';
 
 @Injectable()
 export class AttendanceService {
-  create(createAttendanceDto: CreateAttendanceDto) {
-    return 'This action adds a new attendance';
+
+  constructor(private attendanceRepository:AttendanceRepository){}
+
+  public async create(createAttendanceDto: CreateAttendanceDto):Promise<AttendanceEntity>  {
+    const studentEntity = await this.attendanceRepository.getStudentById(createAttendanceDto.student);
+    return await this.attendanceRepository.createAttendance(createAttendanceDto, studentEntity);
   }
 
-  findAll() {
-    return `This action returns all attendance`;
+  public async findAll():Promise<AttendanceEntity[]>  {
+    return await this.attendanceRepository.getAllAttendances();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} attendance`;
+  public async findOne(id: string):Promise<AttendanceEntity>  {
+    return await this.attendanceRepository.getAttendanceById(id);
   }
 
-  update(id: number, updateAttendanceDto: UpdateAttendanceDto) {
-    return `This action updates a #${id} attendance`;
+  public async update(id: string, updateAttendanceDto: UpdateAttendanceDto):Promise<AttendanceEntity[]>  {
+    return await this.attendanceRepository.updateAttendance(updateAttendanceDto,id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} attendance`;
+  public async remove(id: string):Promise<AttendanceEntity[]> {
+    return await this.attendanceRepository.deleteAttendance(id);
   }
+
+
 }

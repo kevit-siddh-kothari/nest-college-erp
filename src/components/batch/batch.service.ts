@@ -1,26 +1,33 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBatchDto } from './dto/create-batch.dto';
 import { UpdateBatchDto } from './dto/update-batch.dto';
+import { BatchRepository } from './batch.repository';
+import { BatchEntity } from './entity/batch.year.entity';
 
 @Injectable()
 export class BatchService {
-  create(createBatchDto: CreateBatchDto) {
-    return 'This action adds a new batch';
-  }
+  constructor(private batchRepository: BatchRepository){}
+  public async create(createBatchDto: CreateBatchDto):Promise<BatchEntity> {
+    return await this.batchRepository.createBatch(createBatchDto);
+  };
 
-  findAll() {
-    return `This action returns all batch`;
-  }
+  public async findAll():Promise<BatchEntity[]> {
+    return await this.batchRepository.getAllBatchs()
+  };
 
-  findOne(id: number) {
-    return `This action returns a #${id} batch`;
-  }
+  public async findOne(id: string):Promise<BatchEntity> {
+    return await this.batchRepository.getBatchById(id);
+  };
 
-  update(id: number, updateBatchDto: UpdateBatchDto) {
-    return `This action updates a #${id} batch`;
-  }
+  public async update(id: string, updateBatchDto: UpdateBatchDto):Promise<BatchEntity[]> {
+    return await this.batchRepository.updateBatch(updateBatchDto, id);
+  };
 
-  remove(id: number) {
-    return `This action removes a #${id} batch`;
-  }
-}
+  public async remove(id: string):Promise<BatchEntity[]> {
+    return await this.batchRepository.deleteBatch(id);
+  };
+
+  public async removeAll():Promise<{message:string}>{
+    return await this.batchRepository.deleteAllBatch();
+  };
+};

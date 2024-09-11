@@ -1,32 +1,56 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { BatchEntity } from "./batch.year.entity";
-import { DepartmentEntity } from "src/components/department/entity/department.entity";
-import { IsNumber } from "class-validator";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { BatchEntity } from './batch.year.entity';
+import { DepartmentEntity } from 'src/components/department/entity/department.entity';
+import { IsNumber, IsString } from 'class-validator';
 
 @Entity('batch-details')
 export class BatchDetailsEntity {
-    
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @ManyToOne(()=>BatchEntity, (batch) => batch.yearId)
-    @JoinColumn({name:'yearid'})
-    batch: BatchEntity
+  @ManyToOne(() => BatchEntity, (batch) => batch.yearId, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'batch_id' })
+  batch: BatchEntity;
 
-    @ManyToOne(()=> DepartmentEntity, (department) => department.batchDetails)
-    @JoinColumn({name:'departmentid'})
-    department: DepartmentEntity;
+  @ManyToOne(() => DepartmentEntity, (department) => department.batchDetails, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'department_id' })
+  department: DepartmentEntity;
 
-    @IsNumber()
-    @Column()
-    occupiedSeats: number;
+  @IsString()
+  @Column()
+  occupiedSeats: string;
 
-    @IsNumber()
-    @Column()
-    availableSeats: number;
+  @IsString()
+  @Column()
+  availableSeats: string;
 
-    @IsNumber()
-    @Column()
-    totalStudentsIntake: number;
+  @IsString()
+  @Column()
+  totalStudentsIntake: string;
 
+  @CreateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+  })
+  public created_at: Date;
+
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+    onUpdate: 'CURRENT_TIMESTAMP(6)',
+  })
+  public updated_at: Date;
 }

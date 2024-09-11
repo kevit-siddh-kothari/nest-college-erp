@@ -1,11 +1,12 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './entity/user.entity';
 import { TokenEntity } from './entity/token.entity';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { HttpException, Injectable, NotFoundException, UseFilters } from '@nestjs/common';
 import { AppDatSource } from '../../datasource/db.configuration';
 import { hashSync } from 'bcrypt';
 import { error } from 'console';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 @UseFilters(HttpException)
@@ -47,7 +48,7 @@ export class UserRepository {
     return await this.tokenRepo.save(tokenEntity);
   }
 
-  public async isAuthenticated(id: string, tokenValue: string) {
+  public async isAuthenticated(id: string, tokenValue: string):Promise<TokenEntity> {
     const tokenEntity = await this.tokenRepo
       .createQueryBuilder('token')
       .innerJoinAndSelect('token.user', 'user') // Ensure the join is correct
@@ -57,7 +58,7 @@ export class UserRepository {
     return tokenEntity;
   }
 
-  public async deleteToken(tokenValue: string, user) {
+  public async deleteToken(tokenValue: string, user: TokenEntity):Promise<DeleteResult> {
     try {
       const deleted = await this.tokenRepo
         .createQueryBuilder()
@@ -72,13 +73,11 @@ export class UserRepository {
     }
   }
 
-  public async deleteAllToken(userRepo) {
+  public async deleteAllToken(userRepo: TokenEntity):Promise<void> {
     console.log(userRepo);
     try {
         const userId = userRepo.user.id;
-        console.log(userId);
         const deleteResult = await this.tokenRepo.delete({ user: {id: userId}});
-        console.log(deleteResult);
     } catch (error: any) {
       console.log(error.message);
     }

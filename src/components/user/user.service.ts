@@ -1,11 +1,12 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.validation';
-import { UpdateUserDto } from './dto/update-user.dto';
+import {Response} from 'express';
 import { UserRepository } from './user.repository';
 import {compareSync} from 'bcrypt'
 import { UserEntity } from './entity/user.entity';
 import * as jwt from 'jsonwebtoken';
 import { TokenEntity } from './entity/token.entity';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 
 interface AuthenticatedRequest extends Request {
@@ -21,7 +22,7 @@ export class UserService {
 
   constructor(private userRepo: UserRepository){}
 
-  public async signUp(user: CreateUserDto) {
+  public async signUp(user: CreateUserDto):Promise<{message?:string; error?:string}> {
     try {
       await this.userRepo.addUser(user);
       this.logger.log(`User created successfully`);
@@ -33,14 +34,14 @@ export class UserService {
 
   }
 
-  public async logIn(user) {
+  public async logIn(user:UpdateUserDto): Promise<{user?:UpdateUserDto; token?: string; error?:string}> {
     try{
       const entity:UserEntity = await this.userRepo.findByUsername(user.username);
       if (!entity) {
         this.logger.error(`User not found`);
         return { error: 'user not found' };
       }
-      const match = compareSync(user.password, entity.password);
+      const match: boolean = compareSync(user.password, entity.password);
       if (match) {
         const token: string = jwt.sign({ id: entity.id }, 'siddhkothari');
         await this.userRepo.addUserToken(entity.id, token);
@@ -54,14 +55,12 @@ export class UserService {
     }
   }
 
-  public async logOut(req:AuthenticatedRequest, res: Response) {
+  public async logOut(req:AuthenticatedRequest, res: Response):Promise<String> {
     try {
       if (!req.user || !req.token) {
         return 'User or token not found';
       }    
       if (req.user && req.token) {
-         //logout logic
-        //  console.log(req.user, req.token)
         await this.userRepo.deleteToken(req.token, req.user);
         return 'Logged out successfully';
       } else {
@@ -72,10 +71,9 @@ export class UserService {
     }
   }
 
-  public async logOutAll(req, res) {
+  public async logOutAll(req: AuthenticatedRequest, res: Response):Promise<string> {
     try {
       if (req.user) {
-        console.log(req.user)
         await this.userRepo.deleteAllToken(req.user);
         return ('Logged out from all devices successfully');
       } else {

@@ -1,13 +1,9 @@
-import { IsUUID, IsNumber, IsNotEmpty, ArrayNotEmpty } from 'class-validator';
+import { IsUUID, IsNumber, IsNotEmpty, ArrayNotEmpty, IsString } from 'class-validator';
 
 export class CreateBatchDto {
 
-  @IsUUID()
-  @IsNotEmpty({ message: 'ID is required' })
-  readonly id: string;
-
-  @IsNumber({}, { message: 'Year must be a number' })
+  @IsString({ message: 'Year must be a string' })
   @IsNotEmpty({ message: 'Year is required' })
-  readonly year: number;
+  readonly year: string;
 
 }

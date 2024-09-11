@@ -2,33 +2,40 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { DepartmentService } from './department.service';
 import { CreateDepartmentDto } from './dto/create-department.dto';
 import { UpdateDepartmentDto } from './dto/update-department.dto';
+import { DepartmentEntity } from './entity/department.entity';
 
 @Controller('department')
 export class DepartmentController {
   constructor(private readonly departmentService: DepartmentService) {}
 
-  @Post()
-  create(@Body() createDepartmentDto: CreateDepartmentDto) {
+  @Post('/add-department')
+  create(@Body() createDepartmentDto: CreateDepartmentDto):Promise<DepartmentEntity> {
     return this.departmentService.create(createDepartmentDto);
-  }
+  };
 
-  @Get()
-  findAll() {
+  @Get('/all-department')
+  findAll():Promise<DepartmentEntity[]> {
     return this.departmentService.findAll();
-  }
+  };
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.departmentService.findOne(+id);
-  }
+  @Get('/department/:id')
+  findOne(@Param('id') id: string):Promise<DepartmentEntity> {
+    return this.departmentService.findOne(id);
+  };
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDepartmentDto: UpdateDepartmentDto) {
-    return this.departmentService.update(+id, updateDepartmentDto);
-  }
+  @Patch('/update-department/:id')
+  update(@Param('id') id: string, @Body() updateDepartmentDto: UpdateDepartmentDto):Promise<DepartmentEntity[]> {
+    return this.departmentService.update(id, updateDepartmentDto);
+  };
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.departmentService.remove(+id);
+  @Delete('/delete-department/:id')
+  remove(@Param('id') id: string):Promise<DepartmentEntity[]> {
+    return this.departmentService.remove(id);
+  };
+
+  @Delete('/deleteall-department')
+  public async removeAll():Promise<DepartmentEntity[]>{
+    await this.departmentService.removeAllDeparment()
+    return this.findAll();
   }
 }

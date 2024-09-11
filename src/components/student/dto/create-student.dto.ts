@@ -14,11 +14,11 @@ export class CreateStudentDto {
     name: string;
 
     @IsNotEmpty({ message: 'Phone number is required' })
-    @IsNumber({},{ message: 'Phone number must be a number' })
+    @IsString({ message: 'Phone number must be a string' })
     phno: string;
 
     @IsNotEmpty({ message: 'Current semester is required' })
-    @IsNumber({}, { message: 'Current semester must be a number' })
+    @IsString({ message: 'Current semester must be a string' })
     currentsem: string;
 
     @IsNotEmpty({ message: 'Department is required' })

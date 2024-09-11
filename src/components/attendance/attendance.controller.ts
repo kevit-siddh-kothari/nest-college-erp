@@ -2,33 +2,34 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { AttendanceService } from './attendance.service';
 import { CreateAttendanceDto } from './dto/create-attendance.dto';
 import { UpdateAttendanceDto } from './dto/update-attendance.dto';
+import { AttendanceEntity } from './entity/attendance.entity';
 
 @Controller('attendance')
 export class AttendanceController {
   constructor(private readonly attendanceService: AttendanceService) {}
 
-  @Post()
-  create(@Body() createAttendanceDto: CreateAttendanceDto) {
+  @Post('/add-attendance')
+  create(@Body() createAttendanceDto: CreateAttendanceDto):Promise<AttendanceEntity>  {
     return this.attendanceService.create(createAttendanceDto);
   }
 
-  @Get()
-  findAll() {
+  @Get('/get-all-attendance')
+  findAll():Promise<AttendanceEntity[]>  {
     return this.attendanceService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.attendanceService.findOne(+id);
+  @Get('/get-attendance/:id')
+  findOne(@Param('id') id: string):Promise<AttendanceEntity>  {
+    return this.attendanceService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAttendanceDto: UpdateAttendanceDto) {
-    return this.attendanceService.update(+id, updateAttendanceDto);
+  @Patch('/update-attendance/:id')
+  update(@Param('id') id: string, @Body() updateAttendanceDto: UpdateAttendanceDto):Promise<AttendanceEntity[]>  {
+    return this.attendanceService.update(id, updateAttendanceDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.attendanceService.remove(+id);
+  @Delete('/delete-attendance/:id')
+  remove(@Param('id') id: string):Promise<AttendanceEntity[]>  {
+    return this.attendanceService.remove(id);
   }
 }
