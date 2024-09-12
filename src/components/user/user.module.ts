@@ -9,13 +9,18 @@ import { TokenEntity } from './entity/token.entity';
 import { AuthenticationMiddleware } from 'src/middlewear/auth.middlewar';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([UserEntity, TokenEntity])],
+  imports: [TypeOrmModule.forFeature([UserEntity, TokenEntity])],
   controllers: [UserController],
   providers: [UserService, CustomLoggerService, UserRepository],
-  exports:[TypeOrmModule]
+  exports: [TypeOrmModule],
 })
-export class UserModule {configure(consumer: MiddlewareConsumer) {
-  consumer
-    .apply(AuthenticationMiddleware)
-    .forRoutes({ path: 'user/logout', method: RequestMethod.POST }, { path: 'user/logoutAll', method: RequestMethod.POST }); // Apply the middleware globally or to specific routes
-}}
+export class UserModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthenticationMiddleware)
+      .forRoutes(
+        { path: 'user/logout', method: RequestMethod.POST },
+        { path: 'user/logoutAll', method: RequestMethod.POST },
+      ); // Apply the middleware globally or to specific routes
+  }
+}

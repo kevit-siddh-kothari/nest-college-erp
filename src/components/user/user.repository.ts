@@ -2,11 +2,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './entity/user.entity';
 import { TokenEntity } from './entity/token.entity';
 import { DeleteResult, Repository } from 'typeorm';
-import { HttpException, Injectable, NotFoundException, UseFilters } from '@nestjs/common';
-import { AppDatSource } from '../../datasource/db.configuration';
+import {
+  HttpException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+  UseFilters,
+} from '@nestjs/common';
 import { hashSync } from 'bcrypt';
-import { error } from 'console';
-import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 @UseFilters(HttpException)
@@ -27,7 +30,11 @@ export class UserRepository {
   }
 
   public async findByUsername(username: string): Promise<UserEntity> {
-    return await this.userRep.findOne({ where: { username: username } });
+    const user = await this.userRep.findOne({ where: { username: username } });
+    if(!user){
+      throw new NotFoundException('User not found');
+    }
+    return user
   }
 
   public async addUserToken(
@@ -37,7 +44,7 @@ export class UserRepository {
     const userEntity = await this.userRep.findOne({ where: { id: userId } });
 
     if (!userEntity) {
-      throw new Error('User not found');
+      throw new NotFoundException('User not found');
     }
 
     const tokenEntity = await this.tokenRepo.create({
@@ -48,17 +55,23 @@ export class UserRepository {
     return await this.tokenRepo.save(tokenEntity);
   }
 
-  public async isAuthenticated(id: string, tokenValue: string):Promise<TokenEntity> {
+  public async isAuthenticated(
+    id: string,
+    tokenValue: string,
+  ): Promise<TokenEntity> {
     const tokenEntity = await this.tokenRepo
       .createQueryBuilder('token')
-      .innerJoinAndSelect('token.user', 'user') // Ensure the join is correct
-      .where('user.id = :userId', { userId: id }) // Ensure parameter names are correct
-      .andWhere('token.token = :tokenValue', { tokenValue }) // Ensure parameter names are correct
+      .innerJoinAndSelect('token.user', 'user')
+      .where('user.id = :userId', { userId: id })
+      .andWhere('token.token = :tokenValue', { tokenValue })
       .getOne();
     return tokenEntity;
   }
 
-  public async deleteToken(tokenValue: string, user: TokenEntity):Promise<DeleteResult> {
+  public async deleteToken(
+    tokenValue: string,
+    user: TokenEntity,
+  ): Promise<DeleteResult> {
     try {
       const deleted = await this.tokenRepo
         .createQueryBuilder()
@@ -69,17 +82,19 @@ export class UserRepository {
 
       return deleted;
     } catch (error: any) {
-      console.log(error.message);
+      throw new InternalServerErrorException({message: error.message})
     }
   }
 
-  public async deleteAllToken(userRepo: TokenEntity):Promise<void> {
+  public async deleteAllToken(userRepo: TokenEntity): Promise<void> {
     console.log(userRepo);
     try {
-        const userId = userRepo.user.id;
-        const deleteResult = await this.tokenRepo.delete({ user: {id: userId}});
+      const userId = userRepo.user.id;
+      const deleteResult = await this.tokenRepo.delete({
+        user: { id: userId },
+      });
     } catch (error: any) {
-      console.log(error.message);
+      throw new InternalServerErrorException({message: error.message})
     }
   }
 }
