@@ -3,9 +3,8 @@ import { BatchEntity } from '../entity/batch.year.entity';
 import { BatchDetailsEntity } from '../entity/batch.details.entity';
 import { Repository } from 'typeorm';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { DepartmentRepository } from 'src/components/department/department.repository';
-import { DepartmentEntity } from 'src/components/department/entity/department.entity';
-import { BatchRepository } from '../batch.repository';
+import { DepartmentEntity } from '../../department/entity/department.entity';
+
 
 @Injectable()
 export class BatchDetailsRepository {

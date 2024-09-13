@@ -6,7 +6,7 @@ import { AttendanceEntity } from './entity/attendance.entity';
 import { StudentModule } from '../student/student.module';
 import { StudentEntity } from '../student/entity/student.entity';
 import { AttendanceRepository } from './attendance.repository';
-import { AuthenticationMiddleware } from 'src/middlewear/auth.middlewar';
+import { AuthenticationMiddleware } from '../../middlewear/auth.middlewar';
 import { UserRepository } from '../user/user.repository';
 import { UserModule } from '../user/user.module';
 

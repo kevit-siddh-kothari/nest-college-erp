@@ -9,11 +9,9 @@ import {
 import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
 import { UserRepository } from '../components/user/user.repository'; // Import UserRepository
-import { UserEntity } from 'src/components/user/entity/user.entity';
-import { UpdateUserDto } from 'src/components/user/dto/update-user.dto';
-import { TokenEntity } from 'src/components/user/entity/token.entity';
-import { CustomLoggerService } from 'src/utils/logger.services';
-import { HttpExceptionFilter } from 'src/exception/http-exception.filter';
+import { TokenEntity } from '../components/user/entity/token.entity';
+import { CustomLoggerService } from '../utils/logger.services';
+import { HttpExceptionFilter } from '../exception/http-exception.filter';
 
 interface AuthenticatedRequest extends Request {
   user?: TokenEntity;

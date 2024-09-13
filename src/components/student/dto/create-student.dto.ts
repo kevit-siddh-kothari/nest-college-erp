@@ -1,5 +1,3 @@
-import { BatchEntity } from 'src/components/batch/entity/batch.year.entity';
-import { DepartmentEntity } from 'src/components/department/entity/department.entity';
 import {
   IsNotEmpty,
   IsString,

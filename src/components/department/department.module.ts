@@ -4,7 +4,7 @@ import { DepartmentService } from './department.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DepartmentEntity } from './entity/department.entity';
 import { DepartmentRepository } from './department.repository';
-import { AuthenticationMiddleware } from 'src/middlewear/auth.middlewar';
+import { AuthenticationMiddleware } from '../../middlewear/auth.middlewar';
 import { UserRepository } from '../user/user.repository';
 import { UserModule } from '../user/user.module';
 

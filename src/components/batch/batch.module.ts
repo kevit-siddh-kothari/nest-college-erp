@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { BatchEntity } from './entity/batch.year.entity';
 import { BatchRepository } from './batch.repository';
 import { BatchDetailsModule } from './batch-details/batch-details.module';
-import { AuthenticationMiddleware } from 'src/middlewear/auth.middlewar';
+import { AuthenticationMiddleware } from '../../middlewear/auth.middlewar';
 import { UserRepository } from '../user/user.repository';
 import { UserModule } from '../user/user.module';
 

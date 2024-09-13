@@ -15,6 +15,7 @@ import { UserEntity } from 'src/components/user/entity/user.entity';
 import { BatchDetailsEntity } from 'src/components/batch/entity/batch.details.entity';
 import { TokenEntity } from 'src/components/user/entity/token.entity';
 import { AppDatSource } from '../datasource/db.configuration';
+import { StudentInfModule } from 'src/components/student-inf/student-inf.module';
 
 @Module({
   imports: [
@@ -23,10 +24,11 @@ import { AppDatSource } from '../datasource/db.configuration';
     DepartmentModule,
     StudentModule,
     AttendanceModule,
+    StudentInfModule,
     TypeOrmModule.forRoot({
       type: 'mysql', // or 'postgres'
       host: '127.0.0.1',
-      port: 3307, // change for postgres
+      port: 3306, // change for postgres
       username: 'root',
       password: 'Root@72003',
       database: 'college_db',

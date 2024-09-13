@@ -1,7 +1,8 @@
+import { BadRequestException } from '@nestjs/common';
 import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateDepartmentDto {
   @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({message:`name field is required !`})
   name: string;
 }

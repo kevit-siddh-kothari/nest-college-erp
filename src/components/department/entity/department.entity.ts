@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { StudentEntity } from '../../student/entity/student.entity';
-import { BatchDetailsEntity } from 'src/components/batch/entity/batch.details.entity';
+import { BatchDetailsEntity } from '../../batch/entity/batch.details.entity';
 
 @Entity('department')
 export class DepartmentEntity {

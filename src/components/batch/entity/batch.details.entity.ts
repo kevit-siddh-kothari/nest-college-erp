@@ -9,10 +9,10 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { BatchEntity } from './batch.year.entity';
-import { DepartmentEntity } from 'src/components/department/entity/department.entity';
+import { DepartmentEntity } from '../../department/entity/department.entity';
 import { IsNumber, IsString } from 'class-validator';
 
-@Entity('batch-details')
+@Entity('batch_details')
 export class BatchDetailsEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;

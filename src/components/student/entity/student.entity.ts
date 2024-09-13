@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { DepartmentEntity } from '../../department/entity/department.entity';
 import { BatchEntity } from '../../batch/entity/batch.year.entity';
-import { AttendanceEntity } from 'src/components/attendance/entity/attendance.entity';
+import { AttendanceEntity } from '../../attendance/entity/attendance.entity';
 
 @Entity('student')
 export class StudentEntity {

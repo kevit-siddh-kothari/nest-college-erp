@@ -1,5 +1,5 @@
 import { IsBoolean, isBoolean } from 'class-validator';
-import { StudentEntity } from 'src/components/student/entity/student.entity';
+import { StudentEntity } from '../../student/entity/student.entity';
 import {
   Column,
   CreateDateColumn,

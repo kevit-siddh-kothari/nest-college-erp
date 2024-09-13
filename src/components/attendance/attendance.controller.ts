@@ -16,7 +16,7 @@ import { AttendanceEntity } from './entity/attendance.entity';
 import { RoleGuard } from '../../guards/authorization.guard';
 import { Roles } from '../../guards/guard.role.decorator';
 import { UserRole } from '../user/entity/user.entity';
-import { HttpExceptionFilter } from 'src/exception/http-exception.filter';
+import { HttpExceptionFilter } from '../../exception/http-exception.filter';
 
 @Controller('attendance')
 @Roles(UserRole.Admin, UserRole.StaffMember)
