@@ -26,36 +26,71 @@ import { HttpExceptionFilter } from '../../exception/http-exception.filter';
 export class BatchController {
   constructor(private readonly batchService: BatchService) {}
 
+  /**
+   * Creates a new batch.
+   *
+   * @param createBatchDto - The data to create a new batch.
+   * @returns A promise that resolves to the created `BatchEntity`.
+   */
   @Post('/add-batch')
-  create(@Body() createBatchDto: CreateBatchDto): Promise<BatchEntity> {
+  async create(@Body() createBatchDto: CreateBatchDto): Promise<BatchEntity> {
     return this.batchService.create(createBatchDto);
   }
 
+  /**
+   * Retrieves all batches.
+   *
+   * @returns A promise that resolves to an array of `BatchEntity`.
+   */
   @Get('/allbatches')
-  findAll(): Promise<BatchEntity[]> {
+  async findAll(): Promise<BatchEntity[]> {
     return this.batchService.findAll();
   }
 
+  /**
+   * Retrieves a batch by its ID.
+   *
+   * @param id - The ID of the batch to retrieve.
+   * @returns A promise that resolves to the `BatchEntity`.
+   */
   @Get('/batch-id/:id')
-  findOne(@Param('id') id: string): Promise<BatchEntity> {
+  async findOne(@Param('id') id: string): Promise<BatchEntity> {
     return this.batchService.findOne(id);
   }
 
+  /**
+   * Updates a batch by its ID.
+   *
+   * @param id - The ID of the batch to update.
+   * @param updateBatchDto - The data to update the batch.
+   * @returns A promise that resolves to an array containing the updated `BatchEntity`.
+   */
   @Put('/batch-update/:id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateBatchDto: UpdateBatchDto,
   ): Promise<BatchEntity[]> {
     return this.batchService.update(id, updateBatchDto);
   }
 
+  /**
+   * Deletes a batch by its ID.
+   *
+   * @param id - The ID of the batch to delete.
+   * @returns A promise that resolves to an array of remaining `BatchEntity`.
+   */
   @Delete('/batch-delete/:id')
-  remove(@Param('id') id: string): Promise<BatchEntity[]> {
+  async remove(@Param('id') id: string): Promise<BatchEntity[]> {
     return this.batchService.remove(id);
   }
 
+  /**
+   * Deletes all batches.
+   *
+   * @returns A promise that resolves to an object containing a message indicating success.
+   */
   @Delete('/deleteAll')
-  removeAll(): Promise<{ message: String }> {
+  async removeAll(): Promise<{ message: String }> {
     return this.batchService.removeAll();
   }
 }

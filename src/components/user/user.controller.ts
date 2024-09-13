@@ -23,6 +23,11 @@ interface AuthenticatedRequest extends Request {
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  /**
+   * Endpoint for user sign-up.
+   * @param createUserDto - The data transfer object containing user details for registration.
+   * @returns A promise that resolves to an object containing user details and/or a token, or an error message.
+   */
   @Post('/signup')
   public async signUp(
     @Body() createUserDto: CreateUserDto,
@@ -31,6 +36,11 @@ export class UserController {
     return await this.userService.signUp(createUserDto);
   }
 
+  /**
+   * Endpoint for user login.
+   * @param user - The data transfer object containing user credentials (username and password).
+   * @returns A promise that resolves to an object containing user details and a token, or an error message.
+   */
   @Post('/login')
   logIn(
     @Body() user: UpdateUserDto,
@@ -38,15 +48,27 @@ export class UserController {
     return this.userService.logIn(user);
   }
 
+  /**
+   * Endpoint for user logout.
+   * @param req - The request object containing the authenticated user and token.
+   * @param res - The response object used to send a response to the client.
+   * @returns A promise that resolves when the user has been logged out, and sends a success message to the client.
+   */
   @Post('/logout')
   public async logOut(
     @Request() req: AuthenticatedRequest,
     @Res() res: Response,
   ): Promise<void> {
     await this.userService.logOut(req, res);
-    res.send(`logged out sucessfully !`);
+    res.send(`logged out successfully!`);
   }
 
+  /**
+   * Endpoint for logging out from all devices.
+   * @param req - The request object containing the authenticated user and token.
+   * @param res - The response object used to send a response to the client.
+   * @returns A promise that resolves when the user has been logged out from all devices, and sends a success message to the client.
+   */
   @Post('/logoutAll')
   public async logoutAll(
     @Request() req: AuthenticatedRequest,
@@ -54,6 +76,6 @@ export class UserController {
   ): Promise<void> {
     console.log(req.user);
     await this.userService.logOutAll(req, res);
-    res.send(`logged out from all devices !`);
+    res.send(`logged out from all devices!`);
   }
 }

@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { DepartmentController } from './department.controller';
 import { DepartmentEntity } from './entity/department.entity';
 
-
 describe('DepartmentController', () => {
   let controller: DepartmentController;
 

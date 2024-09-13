@@ -22,6 +22,12 @@ import { UserRole } from '../../user/entity/user.entity';
 export class BatchDetailsController {
   constructor(private readonly batchDetailsService: BatchDetailsService) {}
 
+  /**
+   * Creates new batch details.
+   * 
+   * @param createBatchDetailDto - DTO containing details for creating a new batch.
+   * @returns A promise that resolves to the created `BatchDetailsEntity`.
+   */
   @Post('/add-details')
   create(
     @Body() createBatchDetailDto: CreateBatchDetailsDto,
@@ -29,16 +35,34 @@ export class BatchDetailsController {
     return this.batchDetailsService.create(createBatchDetailDto);
   }
 
+  /**
+   * Retrieves all batch details.
+   * 
+   * @returns A promise that resolves to an array of `BatchDetailsEntity`.
+   */
   @Get('/get-all-details')
   findAll(): Promise<BatchDetailsEntity[]> {
     return this.batchDetailsService.findAll();
   }
 
+  /**
+   * Retrieves batch details by ID.
+   * 
+   * @param id - The ID of the batch detail to retrieve.
+   * @returns A promise that resolves to the `BatchDetailsEntity` with the specified ID.
+   */
   @Get('/get-details/:id')
   findOne(@Param('id') id: string): Promise<BatchDetailsEntity> {
     return this.batchDetailsService.findOne(id);
   }
 
+  /**
+   * Updates batch details by ID.
+   * 
+   * @param id - The ID of the batch detail to update.
+   * @param updateBatchDetailDto - DTO containing the new details to update.
+   * @returns A promise that resolves to an array containing the updated `BatchDetailsEntity`.
+   */
   @Patch('/update-details/:id')
   update(
     @Param('id') id: string,
@@ -47,11 +71,22 @@ export class BatchDetailsController {
     return this.batchDetailsService.update(id, updateBatchDetailDto);
   }
 
+  /**
+   * Deletes batch details by ID.
+   * 
+   * @param id - The ID of the batch detail to delete.
+   * @returns A promise that resolves to an array of remaining `BatchDetailsEntity`.
+   */
   @Delete('/delete-details/:id')
   remove(@Param('id') id: string): Promise<BatchDetailsEntity[]> {
     return this.batchDetailsService.remove(id);
   }
 
+  /**
+   * Deletes all batch details.
+   * 
+   * @returns A promise that resolves to an object containing a success message.
+   */
   @Delete('/deleteAll')
   removeAll(): Promise<{ message: string }> {
     return this.batchDetailsService.removeAll();

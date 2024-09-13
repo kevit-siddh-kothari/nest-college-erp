@@ -21,7 +21,7 @@ export class CreateUserDto {
   @IsString({ message: 'Password must be of type string' })
   @MinLength(7, { message: `password must be of minimum length 7` })
   @MaxLength(20, { message: `password must be of maxlength 20` })
-  // @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {message: 'password too weak'})
+  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {message: 'password too weak'})
   readonly password: string;
 
   @IsEnum(UserRole, {

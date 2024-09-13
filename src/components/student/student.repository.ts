@@ -1,12 +1,14 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { StudentEntity } from './entity/student.entity';
 import { Batch, Repository, SelectQueryBuilder } from 'typeorm';
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { DepartmentEntity } from '../department/entity/department.entity';
 import { BatchEntity } from '../batch/entity/batch.year.entity';
-import { BatchDetailsEntity } from '../batch/entity/batch.details.entity';
 import { AttendanceEntity } from '../attendance/entity/attendance.entity';
-import { format, parse } from 'date-fns';
 
 @Injectable()
 export class StudentRepository {
@@ -24,34 +26,70 @@ export class StudentRepository {
     private attendanceRepo: Repository<AttendanceEntity>,
   ) {}
 
+  /**
+   * Retrieves all student records.
+   *
+   * @returns A promise that resolves to an array of `StudentEntity` objects.
+   */
   public async getAllStudents(): Promise<StudentEntity[]> {
     return await this.studentRep.find();
   }
 
+  /**
+   * Retrieves a student record by ID.
+   *
+   * @param id - The ID of the student to retrieve.
+   * @returns A promise that resolves to the `StudentEntity` with the specified ID.
+   * @throws NotFoundException if no student with the specified ID is found.
+   */
   public async getStudentById(id: string): Promise<StudentEntity> {
-    const studentEntity=  await this.studentRep.findOne({ where: { id: id } });
-    if(!studentEntity){
-        throw new NotFoundException(`no student exists with ${id}`);
+    const studentEntity = await this.studentRep.findOne({ where: { id: id } });
+    if (!studentEntity) {
+      throw new NotFoundException(`No student exists with ID ${id}`);
     }
     return studentEntity;
   }
 
+  /**
+   * Retrieves a department record by ID.
+   *
+   * @param id - The ID of the department to retrieve.
+   * @returns A promise that resolves to the `DepartmentEntity` with the specified ID.
+   * @throws NotFoundException if no department with the specified ID is found.
+   */
   public async getDepartmentById(id: string): Promise<DepartmentEntity> {
-    const departmentEntity =  await this.departmentRepo.findOne({ where: { id: id } });
-    if(!departmentEntity){
-        throw new NotFoundException(`no department exists with ${id}`);
+    const departmentEntity = await this.departmentRepo.findOne({
+      where: { id: id },
+    });
+    if (!departmentEntity) {
+      throw new NotFoundException(`No department exists with ID ${id}`);
     }
     return departmentEntity;
   }
 
+  /**
+   * Retrieves a batch record by ID.
+   *
+   * @param id - The ID of the batch to retrieve.
+   * @returns A promise that resolves to the `BatchEntity` with the specified ID.
+   * @throws NotFoundException if no batch with the specified ID is found.
+   */
   public async getBatchEntityById(id: string): Promise<BatchEntity> {
-    const batch: BatchEntity =  await this.batchRepo.findOne({ where: { id: id } });
-    if(!batch){
-        throw new NotFoundException(`no batch exists with ${id}`);
+    const batch = await this.batchRepo.findOne({ where: { id: id } });
+    if (!batch) {
+      throw new NotFoundException(`No batch exists with ID ${id}`);
     }
     return batch;
   }
 
+  /**
+   * Creates a new student record.
+   *
+   * @param student - The student data to be created.
+   * @param BatchEntity - The batch entity to associate with the student.
+   * @param DepartmentEntity - The department entity to associate with the student.
+   * @returns A promise that resolves to the created `StudentEntity`.
+   */
   public async createStudent(
     student,
     BatchEntity,
@@ -68,29 +106,61 @@ export class StudentRepository {
     return await this.studentRep.save(StudentEntity);
   }
 
+  /**
+   * Updates an existing student record by ID.
+   *
+   * @param student - The updated student data.
+   * @param id - The ID of the student to update.
+   * @returns A promise that resolves to the updated `StudentEntity` array.
+   * @throws NotFoundException if no student with the specified ID is found.
+   */
   public async updateStudent(student, id: string): Promise<StudentEntity[]> {
     const existingStudent = await this.studentRep.findOne({
       where: { id: id },
     });
+    if (!existingStudent) {
+      throw new NotFoundException(`No student exists with ID ${id}`);
+    }
     const updatedResult = await this.studentRep.merge(existingStudent, student);
     await this.studentRep.save(updatedResult);
     return this.studentRep.find({ where: { id: id } });
   }
 
+  /**
+   * Deletes a student record by ID.
+   *
+   * @param id - The ID of the student to delete.
+   * @returns A promise that resolves to an array of remaining `StudentEntity` objects.
+   * @throws NotFoundException if no student with the specified ID is found.
+   */
   public async deleteStudent(id: string): Promise<StudentEntity[]> {
+    const student = await this.studentRep.findOne({ where: { id: id } });
+    if (!student) {
+      throw new NotFoundException(`No student exists with ID ${id}`);
+    }
     await this.studentRep.delete({ id: id });
     return this.getAllStudents();
   }
 
+  /**
+   * Deletes all student records.
+   *
+   * @returns A promise that resolves to an object with a success message.
+   */
   public async deleteAllStudent(): Promise<{ message: string }> {
     await this.studentRep
       .createQueryBuilder()
       .delete()
       .from(StudentEntity)
       .execute();
-    return { message: 'Student deleted sucessfully' };
+    return { message: 'Students deleted successfully' };
   }
 
+  /**
+   * Retrieves analytics data for students.
+   *
+   * @returns A promise that resolves to an array of objects representing analytics data.
+   */
   public async getAnalyticsData(): Promise<unknown[]> {
     const results = await this.studentRep
       .createQueryBuilder('student')
@@ -133,6 +203,12 @@ export class StudentRepository {
     return Object.values(analyticsData);
   }
 
+  /**
+   * Counts the number of students in a specific batch year.
+   *
+   * @param year - The year of the batch to count students for.
+   * @returns A promise that resolves to the count of students in the specified batch year.
+   */
   public async countStudentsByBatch(year: string): Promise<number> {
     return await this.studentRep
       .createQueryBuilder('student')
@@ -141,6 +217,13 @@ export class StudentRepository {
       .getCount();
   }
 
+  /**
+   * Retrieves batch data based on year and/or department ID.
+   *
+   * @param year - The year of the batch to retrieve (optional).
+   * @param departmentId - The ID of the department to filter by (optional).
+   * @returns A promise that resolves to an array of `BatchEntity` objects.
+   */
   public async findBatchData(
     year?: string,
     departmentId?: string,
@@ -161,6 +244,16 @@ export class StudentRepository {
     return await queryBuilder.getMany();
   }
 
+  /**
+   * Retrieves attendance data based on date, department ID, batch ID, and/or semester.
+   *
+   * @param date - The date to filter attendance records (optional).
+   * @param department - The department ID to filter by (optional).
+   * @param batch - The batch ID to filter by (optional).
+   * @param currentsem - The semester to filter by (optional).
+   * @returns A promise that resolves to an array of `AttendanceEntity` objects.
+   * @throws BadRequestException if the date format is invalid.
+   */
   public async findAttendanceData(
     date?: string,
     department?: string,
@@ -171,9 +264,9 @@ export class StudentRepository {
     const parsedDate = new Date(date);
 
     if (isNaN(parsedDate.getTime())) {
-      throw new BadRequestException(
-        {message: 'Invalid date format. Date must be in yyyy-MM-dd format.'},
-      );
+      throw new BadRequestException({
+        message: 'Invalid date format. Date must be in yyyy-MM-dd format.',
+      });
     }
 
     const startOfDay = new Date(parsedDate);
@@ -221,6 +314,14 @@ export class StudentRepository {
     return await queryBuildder.getMany();
   }
 
+  /**
+   * Retrieves students with less than 75% attendance.
+   *
+   * @param department - The department ID to filter by (optional).
+   * @param batch - The batch ID to filter by (optional).
+   * @param currentsem - The semester to filter by (optional).
+   * @returns A promise that resolves to an array of objects representing students with less than 75% attendance.
+   */
   public async findPresentLessThan75(
     department?: string,
     batch?: string,

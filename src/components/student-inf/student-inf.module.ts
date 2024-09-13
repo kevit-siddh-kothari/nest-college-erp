@@ -10,10 +10,14 @@ import { UserRepository } from '../user/user.repository';
 import { UserModule } from '../user/user.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([StudentEntity]), StudentModule, UserModule],
+  imports: [
+    TypeOrmModule.forFeature([StudentEntity]),
+    StudentModule,
+    UserModule,
+  ],
   controllers: [StudentInfController],
   providers: [StudentInfService, StudentInfRepository, UserRepository],
-  exports:[TypeOrmModule]
+  exports: [TypeOrmModule],
 })
 export class StudentInfModule {
   configure(consumer: MiddlewareConsumer) {

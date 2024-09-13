@@ -15,7 +15,6 @@ import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { HttpExceptionFilter } from '../../exception/http-exception.filter';
 import { StudentEntity } from './entity/student.entity';
-import { query } from 'express';
 import { AttendanceEntity } from '../attendance/entity/attendance.entity';
 import { RoleGuard } from '../../guards/authorization.guard';
 import { Roles } from '../../guards/guard.role.decorator';
@@ -27,71 +26,130 @@ import { UserRole } from '../user/entity/user.entity';
 export class StudentController {
   constructor(private readonly studentService: StudentService) {}
 
+  /**
+   * Creates a new student record.
+   *
+   * @param createStudentDto - The data transfer object containing student details.
+   * @returns A promise that resolves to the created `StudentEntity`.
+   */
   @Post('/add-student')
   @Roles(UserRole.Admin)
-  create(@Body() createStudentDto: CreateStudentDto): Promise<StudentEntity> {
+  async create(@Body() createStudentDto: CreateStudentDto): Promise<StudentEntity> {
     return this.studentService.create(createStudentDto);
   }
 
+  /**
+   * Retrieves all student records.
+   *
+   * @returns A promise that resolves to an array of `StudentEntity` objects.
+   */
   @Get('/get-allStudent')
   @Roles(UserRole.Admin, UserRole.StaffMember)
-  findAll(): Promise<StudentEntity[]> {
+  async findAll(): Promise<StudentEntity[]> {
     return this.studentService.findAll();
   }
 
+  /**
+   * Retrieves absent students for a specific date and optional filters.
+   *
+   * @param query - The query parameters for filtering by batch ID, department ID, and semester.
+   * @param date - The date to filter absences by.
+   * @returns A promise that resolves to an array of `AttendanceEntity` objects or an error message.
+   */
   @Get('/get-absent-students/:date')
   @Roles(UserRole.Admin, UserRole.StaffMember)
-  getAbsentStudents(
+  async getAbsentStudents(
     @Query() query: { batchId?: string; departmentId?: string; sem?: string },
     @Param('date') date: string,
   ): Promise<AttendanceEntity[] | { error: string }> {
     return this.studentService.getAbsentStudents(query, date);
   }
 
+  /**
+   * Retrieves students with less than 75% attendance.
+   *
+   * @param query - The query parameters for filtering by batch ID, department ID, and semester.
+   * @returns A promise that resolves to an array of students with less than 75% attendance.
+   */
   @Get('/get-present-students-less-75')
   @Roles(UserRole.Admin, UserRole.StaffMember)
-  getStudentslessThan75(
+  async getStudentslessThan75(
     @Query() query: { batchId?: string; departmentId?: string; sem?: string },
   ) {
     return this.studentService.getPresentLessThan75(query);
   }
 
+  /**
+   * Retrieves analytics data related to students.
+   *
+   * @returns A promise that resolves to an array of analytics data.
+   */
   @Roles(UserRole.Admin)
   @Get('/get-analytics')
-  getAnalytics(): Promise<unknown[]> {
+  async getAnalytics(): Promise<unknown[]> {
     return this.studentService.getAnalyticsData();
   }
 
+  /**
+   * Retrieves vacant seats based on query parameters.
+   *
+   * @param query - The query parameters for retrieving vacant seats.
+   * @returns A promise that resolves to the vacant seat information.
+   */
   @Roles(UserRole.Admin)
   @Get('/vacant-seats')
-  getVacantSeats(@Query() query: any) {
+  async getVacantSeats(@Query() query: any) {
     return this.studentService.getVacantSeats(query);
   }
 
+  /**
+   * Retrieves a student record by ID.
+   *
+   * @param id - The ID of the student to retrieve.
+   * @returns A promise that resolves to the `StudentEntity` with the specified ID.
+   */
   @Roles(UserRole.Admin, UserRole.StaffMember)
   @Get('/get-student/:id')
-  findOne(@Param('id') id: string): Promise<StudentEntity> {
+  async findOne(@Param('id') id: string): Promise<StudentEntity> {
     return this.studentService.findOne(id);
   }
 
+  /**
+   * Updates an existing student record by ID.
+   *
+   * @param id - The ID of the student to update.
+   * @param updateStudentDto - The data transfer object containing updated student details.
+   * @returns A promise that resolves to the updated `StudentEntity` array.
+   */
   @Roles(UserRole.Admin, UserRole.StaffMember)
   @Patch('/update-student/:id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateStudentDto: UpdateStudentDto,
   ): Promise<StudentEntity[]> {
     return this.studentService.update(id, updateStudentDto);
   }
 
+  /**
+   * Deletes a student record by ID.
+   *
+   * @param id - The ID of the student to delete.
+   * @returns A promise that resolves to an array of remaining `StudentEntity` objects.
+   */
   @Roles(UserRole.Admin)
   @Delete('/delete-student/:id')
-  remove(@Param('id') id: string): Promise<StudentEntity[]> {
+  async remove(@Param('id') id: string): Promise<StudentEntity[]> {
     return this.studentService.remove(id);
   }
 
+  /**
+   * Deletes all student records.
+   *
+   * @returns A promise that resolves to an object with a success message.
+   */
   @Roles(UserRole.Admin, UserRole.StaffMember)
   @Delete('/deleteAll')
-  removeAll(): Promise<{ message: string }> {
+  async removeAll(): Promise<{ message: string }> {
     return this.studentService.removeAll();
   }
 }

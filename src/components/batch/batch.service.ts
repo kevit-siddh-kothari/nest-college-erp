@@ -11,6 +11,14 @@ import { BatchEntity } from './entity/batch.year.entity';
 @Injectable()
 export class BatchService {
   constructor(private batchRepository: BatchRepository) {}
+
+  /**
+   * Creates a new batch.
+   *
+   * @param createBatchDto - The details of the batch to create.
+   * @returns A promise that resolves to the created `BatchEntity`.
+   * @throws InternalServerErrorException if there is an error during creation.
+   */
   public async create(createBatchDto: CreateBatchDto): Promise<BatchEntity> {
     try {
       return await this.batchRepository.createBatch(createBatchDto);
@@ -19,6 +27,12 @@ export class BatchService {
     }
   }
 
+  /**
+   * Retrieves all batches.
+   *
+   * @returns A promise that resolves to an array of `BatchEntity`.
+   * @throws InternalServerErrorException if there is an error during retrieval.
+   */
   public async findAll(): Promise<BatchEntity[]> {
     try {
       return await this.batchRepository.getAllBatchs();
@@ -27,6 +41,13 @@ export class BatchService {
     }
   }
 
+  /**
+   * Retrieves a batch by its ID.
+   *
+   * @param id - The ID of the batch to retrieve.
+   * @returns A promise that resolves to the `BatchEntity`.
+   * @throws InternalServerErrorException if there is an error during retrieval.
+   */
   public async findOne(id: string): Promise<BatchEntity> {
     try {
       return await this.batchRepository.getBatchById(id);
@@ -35,6 +56,14 @@ export class BatchService {
     }
   }
 
+  /**
+   * Updates a batch by its ID.
+   *
+   * @param id - The ID of the batch to update.
+   * @param updateBatchDto - The updated batch details.
+   * @returns A promise that resolves to an array containing the updated `BatchEntity`.
+   * @throws InternalServerErrorException if there is an error during update.
+   */
   public async update(
     id: string,
     updateBatchDto: UpdateBatchDto,
@@ -46,6 +75,13 @@ export class BatchService {
     }
   }
 
+  /**
+   * Deletes a batch by its ID.
+   *
+   * @param id - The ID of the batch to delete.
+   * @returns A promise that resolves to an array of remaining `BatchEntity`.
+   * @throws InternalServerErrorException if there is an error during deletion.
+   */
   public async remove(id: string): Promise<BatchEntity[]> {
     try {
       return await this.batchRepository.deleteBatch(id);
@@ -54,6 +90,12 @@ export class BatchService {
     }
   }
 
+  /**
+   * Deletes all batches.
+   *
+   * @returns A promise that resolves to an object containing a message indicating success.
+   * @throws InternalServerErrorException if there is an error during deletion.
+   */
   public async removeAll(): Promise<{ message: string }> {
     try {
       return await this.batchRepository.deleteAllBatch();

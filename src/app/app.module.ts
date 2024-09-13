@@ -14,7 +14,6 @@ import { AttendanceEntity } from 'src/components/attendance/entity/attendance.en
 import { UserEntity } from 'src/components/user/entity/user.entity';
 import { BatchDetailsEntity } from 'src/components/batch/entity/batch.details.entity';
 import { TokenEntity } from 'src/components/user/entity/token.entity';
-import { AppDatSource } from '../datasource/db.configuration';
 import { StudentInfModule } from 'src/components/student-inf/student-inf.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
@@ -47,10 +46,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
           UserEntity,
           BatchDetailsEntity,
           TokenEntity,
-        ], 
-        synchronize: true, 
-      })
-    })
+        ],
+        synchronize: true,
+      }),
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

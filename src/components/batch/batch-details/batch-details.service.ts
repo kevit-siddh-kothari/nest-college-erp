@@ -11,6 +11,15 @@ import { BatchDetailsEntity } from '../entity/batch.details.entity';
 @Injectable()
 export class BatchDetailsService {
   constructor(private batchDetailsRepository: BatchDetailsRepository) {}
+
+  /**
+   * Creates a new batch detail entity.
+   *
+   * @param createBatchDetailDto - Data for creating the batch detail.
+   * @returns A promise that resolves to the created `BatchDetailsEntity`.
+   * @throws {NotFoundException} If the department or batch doesn't exist.
+   * @throws {InternalServerErrorException} For any other errors during creation.
+   */
   public async create(
     createBatchDetailDto: CreateBatchDetailsDto,
   ): Promise<BatchDetailsEntity> {
@@ -21,7 +30,7 @@ export class BatchDetailsService {
         );
       if (!departmentEntity) {
         throw new NotFoundException({
-          message: `no department exists with ${createBatchDetailDto.departmentid}`,
+          message: `No department exists with ID ${createBatchDetailDto.departmentid}`,
         });
       }
       const batchEntity = await this.batchDetailsRepository.getBatchEntityById(
@@ -29,7 +38,7 @@ export class BatchDetailsService {
       );
       if (!batchEntity) {
         throw new NotFoundException({
-          message: `no batch exists with ${createBatchDetailDto.yearid}`,
+          message: `No batch exists with ID ${createBatchDetailDto.yearid}`,
         });
       }
       return await this.batchDetailsRepository.createBatch(
@@ -45,6 +54,12 @@ export class BatchDetailsService {
     }
   }
 
+  /**
+   * Retrieves all batch details.
+   *
+   * @returns A promise that resolves to an array of `BatchDetailsEntity`.
+   * @throws {InternalServerErrorException} For any errors during retrieval.
+   */
   public async findAll(): Promise<BatchDetailsEntity[]> {
     try {
       return await this.batchDetailsRepository.getAllBatchs();
@@ -53,6 +68,14 @@ export class BatchDetailsService {
     }
   }
 
+  /**
+   * Retrieves a specific batch detail by its ID.
+   *
+   * @param id - The ID of the batch detail to retrieve.
+   * @returns A promise that resolves to the `BatchDetailsEntity`.
+   * @throws {NotFoundException} If the batch detail doesn't exist.
+   * @throws {InternalServerErrorException} For any other errors during retrieval.
+   */
   public async findOne(id: string): Promise<BatchDetailsEntity> {
     try {
       return await this.batchDetailsRepository.getBatchById(id);
@@ -64,6 +87,14 @@ export class BatchDetailsService {
     }
   }
 
+  /**
+   * Updates a batch detail by its ID.
+   *
+   * @param id - The ID of the batch detail to update.
+   * @param updateBatchDetailDto - Data for updating the batch detail.
+   * @returns A promise that resolves to an array containing the updated `BatchDetailsEntity`.
+   * @throws {InternalServerErrorException} For any errors during updating.
+   */
   public async update(
     id: string,
     updateBatchDetailDto: UpdateBatchDetailDto,
@@ -78,6 +109,14 @@ export class BatchDetailsService {
     }
   }
 
+  /**
+   * Deletes a batch detail by its ID.
+   *
+   * @param id - The ID of the batch detail to delete.
+   * @returns A promise that resolves to an array of remaining `BatchDetailsEntity`.
+   * @throws {NotFoundException} If the batch detail doesn't exist.
+   * @throws {InternalServerErrorException} For any other errors during deletion.
+   */
   public async remove(id: string): Promise<BatchDetailsEntity[]> {
     try {
       return await this.batchDetailsRepository.deleteBatch(id);
@@ -89,6 +128,12 @@ export class BatchDetailsService {
     }
   }
 
+  /**
+   * Deletes all batch details.
+   *
+   * @returns A promise that resolves to an object containing a success message.
+   * @throws {InternalServerErrorException} For any errors during deletion.
+   */
   public async removeAll(): Promise<{ message: string }> {
     try {
       return await this.batchDetailsRepository.deleteAllBatch();

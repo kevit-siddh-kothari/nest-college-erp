@@ -12,6 +12,7 @@ import { UserEntity } from './user.entity'; // Adjust the path as needed
 import { IsString } from 'class-validator';
 
 @Entity('Token')
+// token entity (Schema for Database)
 export class TokenEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
