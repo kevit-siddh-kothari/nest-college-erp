@@ -24,7 +24,7 @@ export class BatchDetailsController {
 
   /**
    * Creates new batch details.
-   * 
+   *
    * @param createBatchDetailDto - DTO containing details for creating a new batch.
    * @returns A promise that resolves to the created `BatchDetailsEntity`.
    */
@@ -37,7 +37,7 @@ export class BatchDetailsController {
 
   /**
    * Retrieves all batch details.
-   * 
+   *
    * @returns A promise that resolves to an array of `BatchDetailsEntity`.
    */
   @Get('/get-all-details')
@@ -47,7 +47,7 @@ export class BatchDetailsController {
 
   /**
    * Retrieves batch details by ID.
-   * 
+   *
    * @param id - The ID of the batch detail to retrieve.
    * @returns A promise that resolves to the `BatchDetailsEntity` with the specified ID.
    */
@@ -58,7 +58,7 @@ export class BatchDetailsController {
 
   /**
    * Updates batch details by ID.
-   * 
+   *
    * @param id - The ID of the batch detail to update.
    * @param updateBatchDetailDto - DTO containing the new details to update.
    * @returns A promise that resolves to an array containing the updated `BatchDetailsEntity`.
@@ -73,7 +73,7 @@ export class BatchDetailsController {
 
   /**
    * Deletes batch details by ID.
-   * 
+   *
    * @param id - The ID of the batch detail to delete.
    * @returns A promise that resolves to an array of remaining `BatchDetailsEntity`.
    */
@@ -84,7 +84,7 @@ export class BatchDetailsController {
 
   /**
    * Deletes all batch details.
-   * 
+   *
    * @returns A promise that resolves to an object containing a success message.
    */
   @Delete('/deleteAll')

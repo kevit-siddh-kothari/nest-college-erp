@@ -80,6 +80,11 @@ export class AttendanceRepository {
   ): Promise<AttendanceEntity[]> {
     const existingAttendance: AttendanceEntity =
       await this.attendanceRep.findOne({ where: { id: id } });
+    if (!existingAttendance) {
+      throw new NotFoundException({
+        message: `no attendance exists on id ${id}`,
+      });
+    }
     const updatedResult: AttendanceEntity = await this.attendanceRep.merge(
       existingAttendance,
       attendance,
@@ -95,6 +100,13 @@ export class AttendanceRepository {
    * @returns A promise that resolves to an array of remaining `AttendanceEntity`.
    */
   public async deleteAttendance(id: string): Promise<AttendanceEntity[]> {
+    const existingAttendance: AttendanceEntity =
+      await this.attendanceRep.findOne({ where: { id: id } });
+    if (!existingAttendance) {
+      throw new NotFoundException({
+        message: `no attendance exists on id ${id}`,
+      });
+    }
     await this.attendanceRep.delete({ id: id });
     return this.getAllAttendances();
   }

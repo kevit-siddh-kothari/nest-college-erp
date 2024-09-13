@@ -8,7 +8,6 @@ import { AttendanceEntity } from '../attendance/entity/attendance.entity';
 import { DepartmentEntity } from '../department/entity/department.entity';
 import { BatchEntity } from '../batch/entity/batch.year.entity';
 import { StudentRepository } from './student.repository';
-import { BatchDetailsEntity } from '../batch/entity/batch.details.entity';
 import { RoleGuard } from 'src/guards/authorization.guard';
 import { AuthenticationMiddleware } from 'src/middlewear/auth.middlewar';
 import { UserRepository } from '../user/user.repository';
@@ -25,7 +24,7 @@ import { UserRepository } from '../user/user.repository';
   ],
   controllers: [StudentController],
   providers: [StudentService, StudentRepository, RoleGuard, UserRepository],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, StudentRepository],
 })
 export class StudentModule {
   configure(consumer: MiddlewareConsumer) {

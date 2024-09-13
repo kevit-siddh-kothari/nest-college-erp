@@ -17,7 +17,7 @@ import { UserModule } from '../user/user.module';
   ],
   controllers: [BatchController],
   providers: [BatchService, BatchRepository, UserRepository],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, BatchRepository],
 })
 export class BatchModule {
   configure(consumer: MiddlewareConsumer) {

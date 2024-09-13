@@ -14,7 +14,7 @@ export class AttendanceService {
 
   /**
    * Creates a new attendance record.
-   * 
+   *
    * @param createAttendanceDto - DTO containing details to create attendance.
    * @returns A promise that resolves to the created `AttendanceEntity`.
    * @throws `NotFoundException` if the student ID does not exist.
@@ -46,7 +46,7 @@ export class AttendanceService {
 
   /**
    * Retrieves all attendance records.
-   * 
+   *
    * @returns A promise that resolves to an array of `AttendanceEntity`.
    * @throws `InternalServerErrorException` if any unexpected error occurs.
    */
@@ -60,7 +60,7 @@ export class AttendanceService {
 
   /**
    * Retrieves a specific attendance record by its ID.
-   * 
+   *
    * @param id - The ID of the attendance record to retrieve.
    * @returns A promise that resolves to the `AttendanceEntity` with the specified ID.
    * @throws `NotFoundException` if the attendance ID does not exist.
@@ -79,7 +79,7 @@ export class AttendanceService {
 
   /**
    * Updates an existing attendance record.
-   * 
+   *
    * @param id - The ID of the attendance record to update.
    * @param updateAttendanceDto - DTO containing updated attendance details.
    * @returns A promise that resolves to an array of updated `AttendanceEntity`.
@@ -101,7 +101,7 @@ export class AttendanceService {
 
   /**
    * Deletes an attendance record by its ID.
-   * 
+   *
    * @param id - The ID of the attendance record to delete.
    * @returns A promise that resolves to an array of remaining `AttendanceEntity`.
    * @throws `InternalServerErrorException` if any unexpected error occurs.

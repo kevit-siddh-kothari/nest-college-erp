@@ -62,6 +62,12 @@ export class DepartmentRepository {
     department,
     id: string,
   ): Promise<DepartmentEntity[]> {
+    const departmentEntity = await this.getDepartmentById(id);
+    if (!departmentEntity) {
+      throw new NotFoundException({
+        message: `no department exists on this id ${id}`,
+      });
+    }
     await this.departmentRep.save({
       id: id,
       name: department.name,

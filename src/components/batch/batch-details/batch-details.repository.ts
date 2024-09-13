@@ -91,12 +91,14 @@ export class BatchDetailsRepository {
    * @returns A promise that resolves to an array containing the updated `BatchDetailsEntity`.
    * @throws {NotFoundException} If the batch detail with the provided ID is not found.
    */
-  public async updateBatch(
-    batch,
-    id: string,
-  ): Promise<BatchDetailsEntity[]> {
+  public async updateBatch(batch, id: string): Promise<BatchDetailsEntity[]> {
     const existingBatchDetails: BatchDetailsEntity =
       await this.batchDetailsRepo.findOneBy({ id });
+    if (!existingBatchDetails) {
+      throw new NotFoundException({
+        message: `no details on batch exists with id ${id}`,
+      });
+    }
     const updatedBatchDetails: BatchDetailsEntity =
       await this.batchDetailsRepo.merge(existingBatchDetails, batch);
     await this.batchDetailsRepo.save(updatedBatchDetails);
@@ -110,6 +112,13 @@ export class BatchDetailsRepository {
    * @returns A promise that resolves to an array of remaining `BatchDetailsEntity`.
    */
   public async deleteBatch(id: string): Promise<BatchDetailsEntity[]> {
+    const existingBatchDetails: BatchDetailsEntity =
+      await this.batchDetailsRepo.findOneBy({ id });
+    if (!existingBatchDetails) {
+      throw new NotFoundException({
+        message: `no details on batch exists with id ${id}`,
+      });
+    }
     await this.batchDetailsRepo.delete({ id: id });
     return this.getAllBatchs();
   }

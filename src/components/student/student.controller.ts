@@ -34,7 +34,9 @@ export class StudentController {
    */
   @Post('/add-student')
   @Roles(UserRole.Admin)
-  async create(@Body() createStudentDto: CreateStudentDto): Promise<StudentEntity> {
+  async create(
+    @Body() createStudentDto: CreateStudentDto,
+  ): Promise<StudentEntity> {
     return this.studentService.create(createStudentDto);
   }
 

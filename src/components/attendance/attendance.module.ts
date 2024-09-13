@@ -18,7 +18,7 @@ import { UserModule } from '../user/user.module';
   ],
   controllers: [AttendanceController],
   providers: [AttendanceService, AttendanceRepository, UserRepository],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, AttendanceRepository],
 })
 export class AttendanceModule {
   configure(consumer: MiddlewareConsumer) {

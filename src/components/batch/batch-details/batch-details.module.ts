@@ -21,7 +21,7 @@ import { UserRepository } from 'src/components/user/user.repository';
   ],
   controllers: [BatchDetailsController],
   providers: [BatchDetailsService, BatchDetailsRepository, UserRepository],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, BatchDetailsRepository],
 })
 export class BatchDetailsModule {
   configure(consumer: MiddlewareConsumer) {

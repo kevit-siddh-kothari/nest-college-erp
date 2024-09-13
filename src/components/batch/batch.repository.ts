@@ -54,6 +54,10 @@ export class BatchRepository {
    * @returns A promise that resolves to an array containing the updated `BatchEntity`.
    */
   public async updateBatch(batch, id: string): Promise<BatchEntity[]> {
+    const batchEntity = await this.getBatchById(id);
+    if (!batchEntity) {
+      throw new NotFoundException({ message: `no Batch exists on id ${id}` });
+    }
     await this.batchRep.save({
       id: id,
       year: batch.year,
@@ -68,6 +72,10 @@ export class BatchRepository {
    * @returns A promise that resolves to an array of remaining `BatchEntity`.
    */
   public async deleteBatch(id: string): Promise<BatchEntity[]> {
+    const batchEntity = await this.getBatchById(id);
+    if (!batchEntity) {
+      throw new NotFoundException({ message: `no Batch exists on id ${id}` });
+    }
     await this.batchRep.delete({ id: id });
     return this.getAllBatchs();
   }

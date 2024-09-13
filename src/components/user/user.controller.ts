@@ -32,7 +32,6 @@ export class UserController {
   public async signUp(
     @Body() createUserDto: CreateUserDto,
   ): Promise<{ user?: UpdateUserDto; token?: string; error?: string }> {
-    console.log('hi');
     return await this.userService.signUp(createUserDto);
   }
 
@@ -42,7 +41,7 @@ export class UserController {
    * @returns A promise that resolves to an object containing user details and a token, or an error message.
    */
   @Post('/login')
-  logIn(
+  async logIn(
     @Body() user: UpdateUserDto,
   ): Promise<{ user?: UpdateUserDto; token?: string; error?: string }> {
     return this.userService.logIn(user);
