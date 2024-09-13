@@ -14,6 +14,7 @@ import * as jwt from 'jsonwebtoken';
 import { TokenEntity } from './entity/token.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { HttpExceptionFilter } from 'src/exception/http-exception.filter';
+import { ConfigService } from '@nestjs/config';
 
 interface AuthenticatedRequest extends Request {
   user?: TokenEntity;
@@ -24,7 +25,7 @@ interface AuthenticatedRequest extends Request {
 export class UserService {
   private logger = new Logger(UserService.name);
 
-  constructor(private userRepo: UserRepository) {}
+  constructor(private userRepo: UserRepository, private configService: ConfigService) {}
 
   public async signUp(
     user: CreateUserDto,
@@ -54,7 +55,7 @@ export class UserService {
       }
       const match: boolean = compareSync(user.password, entity.password);
       if (match) {
-        const token: string = jwt.sign({ id: entity.id }, 'siddhkothari');
+        const token: string = jwt.sign({ id: entity.id }, this.configService.get<string>('JWT_SECRETKEY'));
         await this.userRepo.addUserToken(entity.id, token);
         this.logger.log(`Token added Sucessfully !`);
         return { user, token };

@@ -16,6 +16,7 @@ import { BatchDetailsEntity } from 'src/components/batch/entity/batch.details.en
 import { TokenEntity } from 'src/components/user/entity/token.entity';
 import { AppDatSource } from '../datasource/db.configuration';
 import { StudentInfModule } from 'src/components/student-inf/student-inf.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -25,24 +26,31 @@ import { StudentInfModule } from 'src/components/student-inf/student-inf.module'
     StudentModule,
     AttendanceModule,
     StudentInfModule,
-    TypeOrmModule.forRoot({
-      type: 'mysql', // or 'postgres'
-      host: '127.0.0.1',
-      port: 3306, // change for postgres
-      username: 'root',
-      password: 'Root@72003',
-      database: 'college_db',
-      entities: [
-        StudentEntity,
-        DepartmentEntity,
-        BatchEntity,
-        AttendanceEntity,
-        UserEntity,
-        BatchDetailsEntity,
-        TokenEntity,
-      ], // Specify your entities
-      synchronize: true,
+    ConfigModule.forRoot({
+      isGlobal: true,
     }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'mysql',
+        host: configService.get<string>('DATABASE_HOST'),
+        port: configService.get<number>('DATABASE_PORT'),
+        username: configService.get<string>('DATABASE_USERNAME'),
+        password: configService.get<string>('DATABASE_PASSWORD'),
+        database: configService.get<string>('DATABASE_NAME'),
+        entities: [
+          StudentEntity,
+          DepartmentEntity,
+          BatchEntity,
+          AttendanceEntity,
+          UserEntity,
+          BatchDetailsEntity,
+          TokenEntity,
+        ], 
+        synchronize: true, 
+      })
+    })
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -12,6 +12,7 @@ import { UserRepository } from '../components/user/user.repository'; // Import U
 import { TokenEntity } from '../components/user/entity/token.entity';
 import { CustomLoggerService } from '../utils/logger.services';
 import { HttpExceptionFilter } from '../exception/http-exception.filter';
+import { ConfigService } from '@nestjs/config';
 
 interface AuthenticatedRequest extends Request {
   user?: TokenEntity;
@@ -21,7 +22,7 @@ interface AuthenticatedRequest extends Request {
 @Injectable()
 @UseFilters(HttpExceptionFilter)
 export class AuthenticationMiddleware implements NestMiddleware {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(private readonly userRepository: UserRepository, private configService: ConfigService) {}
 
   async use(
     req: AuthenticatedRequest,
@@ -30,19 +31,19 @@ export class AuthenticationMiddleware implements NestMiddleware {
   ): Promise<void> {
     const logger = new CustomLoggerService();
     try {
-      const token = req.header('Authorization')?.replace('Bearer ', '').trim();
+      const token: string = req.header('Authorization')?.replace('Bearer ', '').trim();
       
       if (!token) {
         throw new NotFoundException('Token is missing');
       }
       logger.log(`token generated sucessfully !`);
-      const decoded = jwt.verify(token, 'siddhkothari') as { id: string };
+      const decoded = jwt.verify(token, this.configService.get<string>('JWT_SECRETKEY')) as { id: string };
 
       if(!decoded){
         throw new UnauthorizedException('Authentication failed');
       }
 
-      const user = await this.userRepository.isAuthenticated(decoded.id, token);
+      const user: TokenEntity = await this.userRepository.isAuthenticated(decoded.id, token);
 
       if (!user) {
         throw new UnauthorizedException('Authentication failed');
