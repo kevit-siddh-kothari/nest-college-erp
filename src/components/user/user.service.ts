@@ -37,6 +37,7 @@ export class UserService {
     user: CreateUserDto,
   ): Promise<{ message?: string; error?: string }> {
     try {
+      console.log('hi', user);
       await this.userRepo.addUser(user);
       this.logger.log(`User created successfully`);
       return { message: 'User created successfully' };

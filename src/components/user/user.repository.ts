@@ -35,6 +35,7 @@ export class UserRepository {
       password: hashSync(user.password, 10),
       role: user.role,
     });
+    console.log(data);
     return await this.userRep.save(data);
   }
 

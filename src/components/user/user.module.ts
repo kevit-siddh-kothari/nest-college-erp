@@ -7,11 +7,12 @@ import { CustomLoggerService } from 'src/utils/logger.services';
 import { UserRepository } from './user.repository';
 import { TokenEntity } from './entity/token.entity';
 import { AuthenticationMiddleware } from 'src/middlewear/auth.middlewar';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity, TokenEntity])],
   controllers: [UserController],
-  providers: [UserService, CustomLoggerService, UserRepository],
+  providers: [UserService, CustomLoggerService, UserRepository, ConfigService],
   exports: [TypeOrmModule],
 })
 export class UserModule {

@@ -9,7 +9,7 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.validation';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { HttpExceptionFilter } from 'src/exception/http-exception.filter';
+import { HttpExceptionFilter } from '../../exception/http-exception.filter';
 import { TokenEntity } from './entity/token.entity';
 import { Response } from 'express';
 

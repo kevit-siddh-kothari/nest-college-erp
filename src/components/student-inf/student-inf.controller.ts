@@ -1,10 +1,10 @@
 import { Controller, Get, Param, UseFilters, UseGuards } from '@nestjs/common';
 import { StudentInfService } from './student-inf.service';
 import { StudentEntity } from '../student/entity/student.entity';
-import { HttpExceptionFilter } from 'src/exception/http-exception.filter';
-import { Roles } from 'src/guards/guard.role.decorator';
+import { HttpExceptionFilter } from '../../exception/http-exception.filter';
+import { Roles } from '../../guards/guard.role.decorator';
 import { UserRole } from '../user/entity/user.entity';
-import { RoleGuard } from 'src/guards/authorization.guard';
+import { RoleGuard } from '../../guards/authorization.guard';
 import { CreateStudentInfDto } from './dto/create-student-inf.dto';
 
 @Controller('student-inf')
