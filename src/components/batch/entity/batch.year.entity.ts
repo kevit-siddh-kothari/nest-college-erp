@@ -3,13 +3,12 @@ import {
   PrimaryGeneratedColumn,
   Column,
   OneToMany,
-  PrimaryColumn,
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { StudentEntity } from '../../student/entity/student.entity';
 import { BatchDetailsEntity } from './batch.details.entity';
-import { IsNumber, IsString } from 'class-validator';
+import { IsString } from 'class-validator';
 
 @Entity('batch')
 export class BatchEntity {

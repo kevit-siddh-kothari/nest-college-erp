@@ -31,7 +31,7 @@ export class AttendanceController {
    * @param createAttendanceDto - The data for creating the attendance record.
    * @returns A promise that resolves to the created `AttendanceEntity`.
    */
-  @Post('/add-attendance')
+  @Post('/')
   async create(
     @Body() createAttendanceDto: CreateAttendanceDto,
   ): Promise<AttendanceEntity> {
@@ -43,7 +43,7 @@ export class AttendanceController {
    *
    * @returns A promise that resolves to an array of `AttendanceEntity`.
    */
-  @Get('/get-all-attendance')
+  @Get('/')
   async findAll(): Promise<AttendanceEntity[]> {
     return this.attendanceService.findAll();
   }
@@ -54,7 +54,7 @@ export class AttendanceController {
    * @param id - The ID of the attendance record to retrieve.
    * @returns A promise that resolves to the `AttendanceEntity` with the specified ID.
    */
-  @Get('/get-attendance/:id')
+  @Get('/:id')
   async findOne(@Param('id') id: string): Promise<AttendanceEntity> {
     return this.attendanceService.findOne(id);
   }
@@ -66,7 +66,7 @@ export class AttendanceController {
    * @param updateAttendanceDto - The updated attendance data.
    * @returns A promise that resolves to an array of updated `AttendanceEntity`.
    */
-  @Patch('/update-attendance/:id')
+  @Patch('/:id')
   async update(
     @Param('id') id: string,
     @Body() updateAttendanceDto: UpdateAttendanceDto,
@@ -80,7 +80,7 @@ export class AttendanceController {
    * @param id - The ID of the attendance record to delete.
    * @returns A promise that resolves to an array of remaining `AttendanceEntity`.
    */
-  @Delete('/delete-attendance/:id')
+  @Delete('/:id')
   async remove(@Param('id') id: string): Promise<AttendanceEntity[]> {
     return this.attendanceService.remove(id);
   }

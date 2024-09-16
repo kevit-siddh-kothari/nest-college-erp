@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   Put,
@@ -32,7 +31,7 @@ export class BatchController {
    * @param createBatchDto - The data to create a new batch.
    * @returns A promise that resolves to the created `BatchEntity`.
    */
-  @Post('/add-batch')
+  @Post('/')
   async create(@Body() createBatchDto: CreateBatchDto): Promise<BatchEntity> {
     return this.batchService.create(createBatchDto);
   }
@@ -42,7 +41,7 @@ export class BatchController {
    *
    * @returns A promise that resolves to an array of `BatchEntity`.
    */
-  @Get('/allbatches')
+  @Get('/')
   async findAll(): Promise<BatchEntity[]> {
     return this.batchService.findAll();
   }
@@ -53,7 +52,7 @@ export class BatchController {
    * @param id - The ID of the batch to retrieve.
    * @returns A promise that resolves to the `BatchEntity`.
    */
-  @Get('/batch-id/:id')
+  @Get('/:id')
   async findOne(@Param('id') id: string): Promise<BatchEntity> {
     return this.batchService.findOne(id);
   }
@@ -65,7 +64,7 @@ export class BatchController {
    * @param updateBatchDto - The data to update the batch.
    * @returns A promise that resolves to an array containing the updated `BatchEntity`.
    */
-  @Put('/batch-update/:id')
+  @Put('/:id')
   async update(
     @Param('id') id: string,
     @Body() updateBatchDto: UpdateBatchDto,
@@ -74,23 +73,23 @@ export class BatchController {
   }
 
   /**
-   * Deletes a batch by its ID.
-   *
-   * @param id - The ID of the batch to delete.
-   * @returns A promise that resolves to an array of remaining `BatchEntity`.
-   */
-  @Delete('/batch-delete/:id')
-  async remove(@Param('id') id: string): Promise<BatchEntity[]> {
-    return this.batchService.remove(id);
-  }
-
-  /**
    * Deletes all batches.
    *
    * @returns A promise that resolves to an object containing a message indicating success.
    */
   @Delete('/deleteAll')
-  async removeAll(): Promise<{ message: String }> {
+  async removeAll(): Promise<{ message: string }> {
     return this.batchService.removeAll();
+  }
+
+  /**
+   * Deletes a batch by its ID.
+   *
+   * @param id - The ID of the batch to delete.
+   * @returns A promise that resolves to an array of remaining `BatchEntity`.
+   */
+  @Delete('/:id')
+  async remove(@Param('id') id: string): Promise<BatchEntity[]> {
+    return this.batchService.remove(id);
   }
 }

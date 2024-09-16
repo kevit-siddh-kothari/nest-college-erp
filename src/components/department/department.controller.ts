@@ -31,7 +31,7 @@ export class DepartmentController {
    * @param createDepartmentDto - The details of the department to create.
    * @returns A promise that resolves to the created `DepartmentEntity`.
    */
-  @Post('/add-department')
+  @Post('/')
   async create(
     @Body() createDepartmentDto: CreateDepartmentDto,
   ): Promise<DepartmentEntity> {
@@ -43,7 +43,7 @@ export class DepartmentController {
    *
    * @returns A promise that resolves to an array of `DepartmentEntity`.
    */
-  @Get('/all-department')
+  @Get('/')
   @Roles(UserRole.Admin, UserRole.StaffMember)
   async findAll(): Promise<DepartmentEntity[]> {
     return this.departmentService.findAll();
@@ -55,7 +55,7 @@ export class DepartmentController {
    * @param id - The ID of the department to retrieve.
    * @returns A promise that resolves to the `DepartmentEntity`.
    */
-  @Get('/department/:id')
+  @Get('/:id')
   async findOne(@Param('id') id: string): Promise<DepartmentEntity> {
     return this.departmentService.findOne(id);
   }
@@ -67,23 +67,12 @@ export class DepartmentController {
    * @param updateDepartmentDto - The updated department details.
    * @returns A promise that resolves to an array containing the updated `DepartmentEntity`.
    */
-  @Patch('/update-department/:id')
+  @Patch('/:id')
   async update(
     @Param('id') id: string,
     @Body() updateDepartmentDto: UpdateDepartmentDto,
   ): Promise<DepartmentEntity[]> {
     return this.departmentService.update(id, updateDepartmentDto);
-  }
-
-  /**
-   * Deletes a department by its ID.
-   *
-   * @param id - The ID of the department to delete.
-   * @returns A promise that resolves to an array of remaining `DepartmentEntity`.
-   */
-  @Delete('/delete-department/:id')
-  async remove(@Param('id') id: string): Promise<DepartmentEntity[]> {
-    return this.departmentService.remove(id);
   }
 
   /**
@@ -95,5 +84,16 @@ export class DepartmentController {
   public async removeAll(): Promise<DepartmentEntity[]> {
     await this.departmentService.removeAllDeparment();
     return this.findAll();
+  }
+
+  /**
+   * Deletes a department by its ID.
+   *
+   * @param id - The ID of the department to delete.
+   * @returns A promise that resolves to an array of remaining `DepartmentEntity`.
+   */
+  @Delete('/:id')
+  async remove(@Param('id') id: string): Promise<DepartmentEntity[]> {
+    return this.departmentService.remove(id);
   }
 }

@@ -1,12 +1,4 @@
-import {
-  IsInt,
-  IsPositive,
-  Min,
-  Max,
-  IsUUID,
-  Validate,
-  IsString,
-} from 'class-validator';
+import { IsUUID, IsString } from 'class-validator';
 
 export class CreateBatchDetailsDto {
   @IsUUID() // Assuming batchId should be UUID too

@@ -1,6 +1,6 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { StudentEntity } from './entity/student.entity';
-import { Batch, Repository, SelectQueryBuilder } from 'typeorm';
+import { Repository, SelectQueryBuilder } from 'typeorm';
 import {
   BadRequestException,
   Injectable,

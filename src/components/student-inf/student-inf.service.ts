@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateStudentInfDto } from './dto/create-student-inf.dto';
-import { UpdateStudentInfDto } from './dto/update-student-inf.dto';
 import { StudentInfRepository } from './student-inf.repositiry';
 import { StudentEntity } from '../student/entity/student.entity';
 

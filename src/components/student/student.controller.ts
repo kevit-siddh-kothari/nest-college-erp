@@ -32,7 +32,7 @@ export class StudentController {
    * @param createStudentDto - The data transfer object containing student details.
    * @returns A promise that resolves to the created `StudentEntity`.
    */
-  @Post('/add-student')
+  @Post('/')
   @Roles(UserRole.Admin)
   async create(
     @Body() createStudentDto: CreateStudentDto,
@@ -45,7 +45,7 @@ export class StudentController {
    *
    * @returns A promise that resolves to an array of `StudentEntity` objects.
    */
-  @Get('/get-allStudent')
+  @Get('/')
   @Roles(UserRole.Admin, UserRole.StaffMember)
   async findAll(): Promise<StudentEntity[]> {
     return this.studentService.findAll();
@@ -58,7 +58,7 @@ export class StudentController {
    * @param date - The date to filter absences by.
    * @returns A promise that resolves to an array of `AttendanceEntity` objects or an error message.
    */
-  @Get('/get-absent-students/:date')
+  @Get('/absent-students/:date')
   @Roles(UserRole.Admin, UserRole.StaffMember)
   async getAbsentStudents(
     @Query() query: { batchId?: string; departmentId?: string; sem?: string },
@@ -73,7 +73,7 @@ export class StudentController {
    * @param query - The query parameters for filtering by batch ID, department ID, and semester.
    * @returns A promise that resolves to an array of students with less than 75% attendance.
    */
-  @Get('/get-present-students-less-75')
+  @Get('/present-students-less-75')
   @Roles(UserRole.Admin, UserRole.StaffMember)
   async getStudentslessThan75(
     @Query() query: { batchId?: string; departmentId?: string; sem?: string },
@@ -87,7 +87,7 @@ export class StudentController {
    * @returns A promise that resolves to an array of analytics data.
    */
   @Roles(UserRole.Admin)
-  @Get('/get-analytics')
+  @Get('/analytics')
   async getAnalytics(): Promise<unknown[]> {
     return this.studentService.getAnalyticsData();
   }
@@ -111,7 +111,7 @@ export class StudentController {
    * @returns A promise that resolves to the `StudentEntity` with the specified ID.
    */
   @Roles(UserRole.Admin, UserRole.StaffMember)
-  @Get('/get-student/:id')
+  @Get('/:id')
   async findOne(@Param('id') id: string): Promise<StudentEntity> {
     return this.studentService.findOne(id);
   }
@@ -124,24 +124,12 @@ export class StudentController {
    * @returns A promise that resolves to the updated `StudentEntity` array.
    */
   @Roles(UserRole.Admin, UserRole.StaffMember)
-  @Patch('/update-student/:id')
+  @Patch('/:id')
   async update(
     @Param('id') id: string,
     @Body() updateStudentDto: UpdateStudentDto,
   ): Promise<StudentEntity[]> {
     return this.studentService.update(id, updateStudentDto);
-  }
-
-  /**
-   * Deletes a student record by ID.
-   *
-   * @param id - The ID of the student to delete.
-   * @returns A promise that resolves to an array of remaining `StudentEntity` objects.
-   */
-  @Roles(UserRole.Admin)
-  @Delete('/delete-student/:id')
-  async remove(@Param('id') id: string): Promise<StudentEntity[]> {
-    return this.studentService.remove(id);
   }
 
   /**
@@ -153,5 +141,17 @@ export class StudentController {
   @Delete('/deleteAll')
   async removeAll(): Promise<{ message: string }> {
     return this.studentService.removeAll();
+  }
+
+  /**
+   * Deletes a student record by ID.
+   *
+   * @param id - The ID of the student to delete.
+   * @returns A promise that resolves to an array of remaining `StudentEntity` objects.
+   */
+  @Roles(UserRole.Admin)
+  @Delete('/:id')
+  async remove(@Param('id') id: string): Promise<StudentEntity[]> {
+    return this.studentService.remove(id);
   }
 }

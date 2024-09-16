@@ -28,7 +28,7 @@ export class BatchDetailsController {
    * @param createBatchDetailDto - DTO containing details for creating a new batch.
    * @returns A promise that resolves to the created `BatchDetailsEntity`.
    */
-  @Post('/add-details')
+  @Post('/')
   create(
     @Body() createBatchDetailDto: CreateBatchDetailsDto,
   ): Promise<BatchDetailsEntity> {
@@ -40,7 +40,7 @@ export class BatchDetailsController {
    *
    * @returns A promise that resolves to an array of `BatchDetailsEntity`.
    */
-  @Get('/get-all-details')
+  @Get('/')
   findAll(): Promise<BatchDetailsEntity[]> {
     return this.batchDetailsService.findAll();
   }
@@ -51,7 +51,7 @@ export class BatchDetailsController {
    * @param id - The ID of the batch detail to retrieve.
    * @returns A promise that resolves to the `BatchDetailsEntity` with the specified ID.
    */
-  @Get('/get-details/:id')
+  @Get('/:id')
   findOne(@Param('id') id: string): Promise<BatchDetailsEntity> {
     return this.batchDetailsService.findOne(id);
   }
@@ -63,23 +63,12 @@ export class BatchDetailsController {
    * @param updateBatchDetailDto - DTO containing the new details to update.
    * @returns A promise that resolves to an array containing the updated `BatchDetailsEntity`.
    */
-  @Patch('/update-details/:id')
+  @Patch('/:id')
   update(
     @Param('id') id: string,
     @Body() updateBatchDetailDto: UpdateBatchDetailDto,
   ): Promise<BatchDetailsEntity[]> {
     return this.batchDetailsService.update(id, updateBatchDetailDto);
-  }
-
-  /**
-   * Deletes batch details by ID.
-   *
-   * @param id - The ID of the batch detail to delete.
-   * @returns A promise that resolves to an array of remaining `BatchDetailsEntity`.
-   */
-  @Delete('/delete-details/:id')
-  remove(@Param('id') id: string): Promise<BatchDetailsEntity[]> {
-    return this.batchDetailsService.remove(id);
   }
 
   /**
@@ -90,5 +79,16 @@ export class BatchDetailsController {
   @Delete('/deleteAll')
   removeAll(): Promise<{ message: string }> {
     return this.batchDetailsService.removeAll();
+  }
+
+  /**
+   * Deletes batch details by ID.
+   *
+   * @param id - The ID of the batch detail to delete.
+   * @returns A promise that resolves to an array of remaining `BatchDetailsEntity`.
+   */
+  @Delete('/:id')
+  remove(@Param('id') id: string): Promise<BatchDetailsEntity[]> {
+    return this.batchDetailsService.remove(id);
   }
 }

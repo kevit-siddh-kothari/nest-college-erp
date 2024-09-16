@@ -104,10 +104,7 @@ export class UserRepository {
    * @returns A promise that resolves to the result of the delete operation.
    * @throws {InternalServerErrorException} If there is an error during the delete operation.
    */
-  public async deleteToken(
-    tokenValue: string,
-    user: TokenEntity,
-  ): Promise<DeleteResult> {
+  public async deleteToken(tokenValue: string): Promise<DeleteResult> {
     try {
       const deleted = await this.tokenRepo
         .createQueryBuilder()

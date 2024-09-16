@@ -1,5 +1,4 @@
-import { IsBoolean, IsNotEmpty, IsUUID } from 'class-validator';
-import { StudentEntity } from 'src/components/student/entity/student.entity';
+import { IsBoolean, IsNotEmpty } from 'class-validator';
 
 export class CreateAttendanceDto {
   @IsBoolean({ message: 'isPresent must be a boolean value' })

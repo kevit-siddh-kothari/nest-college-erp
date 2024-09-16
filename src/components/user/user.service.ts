@@ -5,7 +5,6 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.validation';
-import { Response } from 'express';
 import { UserRepository } from './user.repository';
 import { compareSync } from 'bcrypt';
 import { UserEntity } from './entity/user.entity';
@@ -99,7 +98,6 @@ export class UserService {
    */
   public async logOut(
     req: AuthenticatedRequest,
-    res: Response,
   ): Promise<string | { message: string }> {
     try {
       if (!req.user || !req.token) {
@@ -107,7 +105,7 @@ export class UserService {
         throw new NotFoundException({ message: `User or token not found` });
       }
       if (req.user && req.token) {
-        await this.userRepo.deleteToken(req.token, req.user);
+        await this.userRepo.deleteToken(req.token);
         this.logger.warn(`Logged out successfully`);
         return { message: 'Logged out successfully' };
       }
@@ -129,7 +127,6 @@ export class UserService {
    */
   public async logOutAll(
     req: AuthenticatedRequest,
-    res: Response,
   ): Promise<string | { message: string }> {
     try {
       if (req.user) {

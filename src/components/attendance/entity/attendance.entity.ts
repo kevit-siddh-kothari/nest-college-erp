@@ -1,4 +1,4 @@
-import { IsBoolean, isBoolean } from 'class-validator';
+import { IsBoolean } from 'class-validator';
 import { StudentEntity } from '../../student/entity/student.entity';
 import {
   Column,

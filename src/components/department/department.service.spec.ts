@@ -4,7 +4,10 @@ import { DepartmentRepository } from './department.repository';
 import { CreateDepartmentDto } from './dto/create-department.dto';
 import { UpdateDepartmentDto } from './dto/update-department.dto';
 import { DepartmentEntity } from './entity/department.entity';
-import { NotFoundException, InternalServerErrorException } from '@nestjs/common';
+import {
+  NotFoundException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { StudentEntity } from '../student/entity/student.entity';
 import { BatchDetailsEntity } from '../batch/entity/batch.details.entity';
 
@@ -30,7 +33,7 @@ describe('DepartmentService', () => {
   const mockBatchDetails = {
     id: '1',
     batch: {
-        year:'2033'
+      year: '2033',
     },
     department: {
       id: '1',
@@ -42,7 +45,6 @@ describe('DepartmentService', () => {
     created_at: new Date(),
     updated_at: new Date(),
   } as BatchDetailsEntity;
-  
 
   const mockDepartmentEntity: DepartmentEntity = {
     id: '1',
@@ -86,9 +88,13 @@ describe('DepartmentService', () => {
     it('should throw InternalServerErrorException if repository throws an error', async () => {
       const dto: CreateDepartmentDto = { name: 'Computer Science' };
 
-      repository.createDepartment.mockRejectedValue(new Error('Database error'));
+      repository.createDepartment.mockRejectedValue(
+        new Error('Database error'),
+      );
 
-      await expect(service.create(dto)).rejects.toThrow(InternalServerErrorException);
+      await expect(service.create(dto)).rejects.toThrow(
+        InternalServerErrorException,
+      );
       expect(repository.createDepartment).toHaveBeenCalledWith(dto);
     });
   });
@@ -105,9 +111,13 @@ describe('DepartmentService', () => {
     });
 
     it('should throw InternalServerErrorException if repository throws an error', async () => {
-      repository.getAllDepartments.mockRejectedValue(new Error('Database error'));
+      repository.getAllDepartments.mockRejectedValue(
+        new Error('Database error'),
+      );
 
-      await expect(service.findAll()).rejects.toThrow(InternalServerErrorException);
+      await expect(service.findAll()).rejects.toThrow(
+        InternalServerErrorException,
+      );
     });
   });
 
@@ -121,15 +131,21 @@ describe('DepartmentService', () => {
     });
 
     it('should throw NotFoundException if department is not found', async () => {
-      repository.getDepartmentById.mockRejectedValue(new NotFoundException('Department not found'));
+      repository.getDepartmentById.mockRejectedValue(
+        new NotFoundException('Department not found'),
+      );
 
       await expect(service.findOne('1')).rejects.toThrow(NotFoundException);
     });
 
     it('should throw InternalServerErrorException if repository throws an error', async () => {
-      repository.getDepartmentById.mockRejectedValue(new Error('Database error'));
+      repository.getDepartmentById.mockRejectedValue(
+        new Error('Database error'),
+      );
 
-      await expect(service.findOne('1')).rejects.toThrow(InternalServerErrorException);
+      await expect(service.findOne('1')).rejects.toThrow(
+        InternalServerErrorException,
+      );
     });
   });
 
@@ -146,21 +162,31 @@ describe('DepartmentService', () => {
     });
 
     it('should throw NotFoundException if department is not found', async () => {
-      repository.updateDepartment.mockRejectedValue(new NotFoundException('Department not found'));
+      repository.updateDepartment.mockRejectedValue(
+        new NotFoundException('Department not found'),
+      );
 
-      await expect(service.update('1', { name: 'Updated Computer Science' })).rejects.toThrow(NotFoundException);
+      await expect(
+        service.update('1', { name: 'Updated Computer Science' }),
+      ).rejects.toThrow(NotFoundException);
     });
 
     it('should throw InternalServerErrorException if repository throws an error', async () => {
-      repository.updateDepartment.mockRejectedValue(new Error('Database error'));
+      repository.updateDepartment.mockRejectedValue(
+        new Error('Database error'),
+      );
 
-      await expect(service.update('1', { name: 'Updated Computer Science' })).rejects.toThrow(InternalServerErrorException);
+      await expect(
+        service.update('1', { name: 'Updated Computer Science' }),
+      ).rejects.toThrow(InternalServerErrorException);
     });
   });
 
   describe('remove', () => {
     it('should delete a department by id', async () => {
-      const mockDepartments = [{ id: '1', name: 'Computer Science' } as DepartmentEntity];
+      const mockDepartments = [
+        { id: '1', name: 'Computer Science' } as DepartmentEntity,
+      ];
 
       repository.deleteDepartment.mockResolvedValue(mockDepartments);
 
@@ -170,15 +196,21 @@ describe('DepartmentService', () => {
     });
 
     it('should throw NotFoundException if department is not found', async () => {
-      repository.deleteDepartment.mockRejectedValue(new NotFoundException('Department not found'));
+      repository.deleteDepartment.mockRejectedValue(
+        new NotFoundException('Department not found'),
+      );
 
       await expect(service.remove('1')).rejects.toThrow(NotFoundException);
     });
 
     it('should throw InternalServerErrorException if repository throws an error', async () => {
-      repository.deleteDepartment.mockRejectedValue(new Error('Database error'));
+      repository.deleteDepartment.mockRejectedValue(
+        new Error('Database error'),
+      );
 
-      await expect(service.remove('1')).rejects.toThrow(InternalServerErrorException);
+      await expect(service.remove('1')).rejects.toThrow(
+        InternalServerErrorException,
+      );
     });
   });
 
@@ -194,9 +226,13 @@ describe('DepartmentService', () => {
     });
 
     it('should throw InternalServerErrorException if repository throws an error', async () => {
-      repository.deleteAllDepartment.mockRejectedValue(new Error('Database error'));
+      repository.deleteAllDepartment.mockRejectedValue(
+        new Error('Database error'),
+      );
 
-      await expect(service.removeAllDeparment()).rejects.toThrow(InternalServerErrorException);
+      await expect(service.removeAllDeparment()).rejects.toThrow(
+        InternalServerErrorException,
+      );
     });
   });
 });

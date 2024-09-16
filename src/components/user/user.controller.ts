@@ -58,7 +58,7 @@ export class UserController {
     @Request() req: AuthenticatedRequest,
     @Res() res: Response,
   ): Promise<void> {
-    await this.userService.logOut(req, res);
+    await this.userService.logOut(req);
     res.send(`logged out successfully!`);
   }
 
@@ -74,7 +74,7 @@ export class UserController {
     @Res() res: Response,
   ): Promise<void> {
     console.log(req.user);
-    await this.userService.logOutAll(req, res);
+    await this.userService.logOutAll(req);
     res.send(`logged out from all devices!`);
   }
 }

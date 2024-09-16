@@ -266,8 +266,8 @@ export class StudentService {
       if (!attendanceRecords.length) {
         throw new NotFoundException({ message: `attendance records is empty` });
       }
-      let result = [];
-      for (let attendance of attendanceRecords) {
+      const result = [];
+      for (const attendance of attendanceRecords) {
         if (attendance.TotalPresent < 23) {
           result.push(attendance);
         }

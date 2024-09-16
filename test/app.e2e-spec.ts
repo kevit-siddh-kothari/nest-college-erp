@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from '../src/app/app.module';
 import { StudentEntity } from 'src/components/student/entity/student.entity';
 import { DepartmentEntity } from 'src/components/department/entity/department.entity';
 import { BatchEntity } from 'src/components/batch/entity/batch.year.entity';

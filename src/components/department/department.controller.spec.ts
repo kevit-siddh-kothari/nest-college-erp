@@ -3,7 +3,6 @@ import { DepartmentController } from './department.controller';
 import { DepartmentService } from './department.service';
 import { CreateDepartmentDto } from './dto/create-department.dto';
 import { UpdateDepartmentDto } from './dto/update-department.dto';
-import { DepartmentEntity } from './entity/department.entity';
 
 describe('DepartmentController', () => {
   let departmentController: DepartmentController;
@@ -17,9 +16,11 @@ describe('DepartmentController', () => {
     findOne: jest.fn().mockImplementation((id: string) => {
       return Promise.resolve({ id, name: 'IT' });
     }),
-    update: jest.fn().mockImplementation((id: string, dto: UpdateDepartmentDto) => {
-      return Promise.resolve([{ id, ...dto }]);
-    }),
+    update: jest
+      .fn()
+      .mockImplementation((id: string, dto: UpdateDepartmentDto) => {
+        return Promise.resolve([{ id, ...dto }]);
+      }),
     remove: jest.fn().mockResolvedValue([{ id: '1', name: 'IT' }]),
     removeAllDeparment: jest.fn().mockResolvedValue([]),
   };
@@ -35,7 +36,8 @@ describe('DepartmentController', () => {
       ],
     }).compile();
 
-    departmentController = module.get<DepartmentController>(DepartmentController);
+    departmentController =
+      module.get<DepartmentController>(DepartmentController);
     departmentService = module.get<DepartmentService>(DepartmentService);
   });
 
@@ -45,7 +47,7 @@ describe('DepartmentController', () => {
 
   describe('create', () => {
     it('should create a new department', async () => {
-      const dto: CreateDepartmentDto = { name: 'IT'};
+      const dto: CreateDepartmentDto = { name: 'IT' };
       const result = await departmentController.create(dto);
       expect(result).toEqual({ id: '1', ...dto });
       expect(departmentService.create).toHaveBeenCalledWith(dto);
@@ -70,7 +72,7 @@ describe('DepartmentController', () => {
 
   describe('update', () => {
     it('should update a department by id', async () => {
-      const dto: UpdateDepartmentDto = { name: 'Updated IT'};
+      const dto: UpdateDepartmentDto = { name: 'Updated IT' };
       const result = await departmentController.update('1', dto);
       expect(result).toEqual([{ id: '1', ...dto }]);
       expect(departmentService.update).toHaveBeenCalledWith('1', dto);

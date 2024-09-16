@@ -3,14 +3,13 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
-  JoinTable,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { BatchEntity } from './batch.year.entity';
 import { DepartmentEntity } from '../../department/entity/department.entity';
-import { IsNumber, IsString } from 'class-validator';
+import { IsString } from 'class-validator';
 
 @Entity('batch_details')
 export class BatchDetailsEntity {

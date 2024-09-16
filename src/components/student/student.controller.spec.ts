@@ -87,8 +87,21 @@ describe('StudentController', () => {
 
   describe('findAll', () => {
     it('should return an array of students', async () => {
-      const result: StudentEntity[] = [{ id: 'uuid', username: 'john123', name: 'John Doe', phno: '1234567890', currentSem: '6', department: {} as any, batch: {} as any, attendance: [], created_at: new Date(), updated_at: new Date() }];
-      
+      const result: StudentEntity[] = [
+        {
+          id: 'uuid',
+          username: 'john123',
+          name: 'John Doe',
+          phno: '1234567890',
+          currentSem: '6',
+          department: {} as any,
+          batch: {} as any,
+          attendance: [],
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+      ];
+
       jest.spyOn(studentService, 'findAll').mockResolvedValue(result);
 
       expect(await studentController.findAll()).toBe(result);
@@ -101,7 +114,12 @@ describe('StudentController', () => {
 
       jest.spyOn(studentService, 'getAbsentStudents').mockResolvedValue(result);
 
-      expect(await studentController.getAbsentStudents({ batchId: 'batch1' }, '2024-01-01')).toBe(result);
+      expect(
+        await studentController.getAbsentStudents(
+          { batchId: 'batch1' },
+          '2024-01-01',
+        ),
+      ).toBe(result);
     });
   });
 
@@ -109,9 +127,13 @@ describe('StudentController', () => {
     it('should return students with less than 75% attendance', async () => {
       const result = [];
 
-      jest.spyOn(studentService, 'getPresentLessThan75').mockResolvedValue(result);
+      jest
+        .spyOn(studentService, 'getPresentLessThan75')
+        .mockResolvedValue(result);
 
-      expect(await studentController.getStudentslessThan75({ batchId: 'batch1' })).toBe(result);
+      expect(
+        await studentController.getStudentslessThan75({ batchId: 'batch1' }),
+      ).toBe(result);
     });
   });
 
@@ -127,7 +149,7 @@ describe('StudentController', () => {
 
   describe('getVacantSeats', () => {
     it('should return vacant seat information', async () => {
-      const result : any = {};
+      const result: any = {};
 
       jest.spyOn(studentService, 'getVacantSeats').mockResolvedValue(result);
 
@@ -137,7 +159,18 @@ describe('StudentController', () => {
 
   describe('findOne', () => {
     it('should return a single student', async () => {
-      const result: StudentEntity = { id: 'uuid', username: 'john123', name: 'John Doe', phno: '1234567890', currentSem: '6', department: {} as any, batch: {} as any, attendance: [], created_at: new Date(), updated_at: new Date() };
+      const result: StudentEntity = {
+        id: 'uuid',
+        username: 'john123',
+        name: 'John Doe',
+        phno: '1234567890',
+        currentSem: '6',
+        department: {} as any,
+        batch: {} as any,
+        attendance: [],
+        created_at: new Date(),
+        updated_at: new Date(),
+      };
 
       jest.spyOn(studentService, 'findOne').mockResolvedValue(result);
 
@@ -152,7 +185,9 @@ describe('StudentController', () => {
 
       jest.spyOn(studentService, 'update').mockResolvedValue(result);
 
-      expect(await studentController.update('uuid', updateStudentDto)).toBe(result);
+      expect(await studentController.update('uuid', updateStudentDto)).toBe(
+        result,
+      );
     });
   });
 

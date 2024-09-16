@@ -11,7 +11,6 @@ import { UserRepository } from './user.repository';
 import { CreateUserDto } from './dto/create-user.validation';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Response } from 'express';
-import { AuthenticationMiddleware } from '../../middlewear/auth.middlewar';
 
 interface AuthenticatedRequest extends Request {
   user?: TokenEntity;
@@ -32,7 +31,7 @@ describe('UserController', () => {
           host: '127.0.0.1',
           port: 3306,
           username: 'root',
-          password: 'Siddh@72003',
+          password: 'Root@72003',
           database: 'college_testing1',
           entities: [UserEntity, TokenEntity],
         }),
@@ -58,21 +57,29 @@ describe('UserController', () => {
   });
 
   it('should return user and token on successful sign-up', async () => {
-    const dto: CreateUserDto = { username: 'test@mail.com', password: 'password', role: UserRole.Admin };
+    const dto: CreateUserDto = {
+      username: 'test@mail.com',
+      password: 'password',
+      role: UserRole.Admin,
+    };
     const result: unknown = { user: dto, token: 'fake-token' };
-    
+
     jest.spyOn(service, 'signUp').mockResolvedValue(result);
-    
+
     const response = await controller.signUp(dto);
     expect(response).toEqual(result);
   });
 
   it('should return user and token on successful login', async () => {
-    const dto: UpdateUserDto = { username: 'test@mail.com', password: 'password', role: UserRole.Admin };
+    const dto: UpdateUserDto = {
+      username: 'test@mail.com',
+      password: 'password',
+      role: UserRole.Admin,
+    };
     const result = { user: dto, token: 'fake-token' };
-    
+
     jest.spyOn(service, 'logIn').mockResolvedValue(result);
-    
+
     const response = await controller.logIn(dto);
     expect(response).toEqual(result);
   });
@@ -83,11 +90,11 @@ describe('UserController', () => {
       token: 'fake-token',
     } as any;
     const res = { send: jest.fn() } as any as Response;
-    
+
     jest.spyOn(service, 'logOut').mockResolvedValue('');
-    
+
     await controller.logOut(req, res);
-    
+
     expect(service.logOut).toHaveBeenCalledWith(req, res);
     expect(res.send).toHaveBeenCalledWith('logged out successfully!');
   });
@@ -98,11 +105,11 @@ describe('UserController', () => {
       token: 'fake-token',
     } as any;
     const res = { send: jest.fn() } as any as Response;
-    
+
     jest.spyOn(service, 'logOutAll').mockResolvedValue('');
-    
+
     await controller.logoutAll(req, res);
-    
+
     expect(service.logOutAll).toHaveBeenCalledWith(req, res);
     expect(res.send).toHaveBeenCalledWith('logged out from all devices!');
   });
