@@ -19,7 +19,7 @@ import { UserRole } from '../user/entity/user.entity';
 import { HttpExceptionFilter } from '../../exception/http-exception.filter';
 
 @Controller('department')
-@Roles(UserRole.Admin)
+@Roles(UserRole.ADMIN)
 @UseGuards(RoleGuard)
 @UseFilters(HttpExceptionFilter)
 export class DepartmentController {
@@ -44,7 +44,7 @@ export class DepartmentController {
    * @returns A promise that resolves to an array of `DepartmentEntity`.
    */
   @Get('/')
-  @Roles(UserRole.Admin, UserRole.StaffMember)
+  @Roles(UserRole.ADMIN, UserRole.STAFFMEMBER)
   async findAll(): Promise<DepartmentEntity[]> {
     return this.departmentService.findAll();
   }

@@ -9,7 +9,7 @@ import { CreateStudentInfDto } from './dto/create-student-inf.dto';
 
 @Controller('student-inf')
 @UseFilters(HttpExceptionFilter)
-@Roles(UserRole.Student)
+@Roles(UserRole.STUDENT)
 @UseGuards(RoleGuard)
 export class StudentInfController {
   constructor(private readonly studentInfService: StudentInfService) {}

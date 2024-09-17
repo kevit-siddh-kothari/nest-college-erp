@@ -19,7 +19,7 @@ import { UserRole } from '../user/entity/user.entity';
 import { HttpExceptionFilter } from '../../exception/http-exception.filter';
 
 @Controller('batch')
-@Roles(UserRole.Admin)
+@Roles(UserRole.ADMIN)
 @UseGuards(RoleGuard)
 @UseFilters(HttpExceptionFilter)
 export class BatchController {

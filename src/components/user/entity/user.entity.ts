@@ -10,9 +10,9 @@ import { TokenEntity } from './token.entity'; // Adjust the path as needed
 import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
 
 enum UserRole {
-  Admin = 'admin',
-  Student = 'student',
-  StaffMember = 'StaffMember',
+  ADMIN = 'admin',
+  STUDENT = 'student',
+  STAFFMEMBER = 'StaffMember',
 }
 
 @Entity('User')

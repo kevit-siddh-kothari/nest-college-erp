@@ -18,7 +18,7 @@ import { UserRole } from '../../user/entity/user.entity';
 
 @Controller('batch-details')
 @UseGuards(RoleGuard)
-@Roles(UserRole.Admin)
+@Roles(UserRole.ADMIN)
 export class BatchDetailsController {
   constructor(private readonly batchDetailsService: BatchDetailsService) {}
 

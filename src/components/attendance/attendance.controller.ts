@@ -19,7 +19,7 @@ import { UserRole } from '../user/entity/user.entity';
 import { HttpExceptionFilter } from '../../exception/http-exception.filter';
 
 @Controller('attendance')
-@Roles(UserRole.Admin, UserRole.StaffMember)
+@Roles(UserRole.ADMIN, UserRole.STAFFMEMBER)
 @UseGuards(RoleGuard)
 @UseFilters(HttpExceptionFilter)
 export class AttendanceController {

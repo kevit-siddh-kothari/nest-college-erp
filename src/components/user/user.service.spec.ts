@@ -26,7 +26,7 @@ jest.mock('bcrypt', () => ({
 describe('UserService', () => {
   let service: UserService;
   let userRepo: UserRepository;
-  let configService: ConfigService;
+  // let configService: ConfigService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -54,7 +54,7 @@ describe('UserService', () => {
 
     service = module.get<UserService>(UserService);
     userRepo = module.get<UserRepository>(UserRepository);
-    configService = module.get<ConfigService>(ConfigService);
+    // configService = module.get<ConfigService>(ConfigService);
   });
 
   describe('signUp', () => {
