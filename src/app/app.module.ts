@@ -47,7 +47,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
           BatchDetailsEntity,
           TokenEntity,
         ],
-        synchronize: false,
+        synchronize: true,
       }),
     }),
   ],

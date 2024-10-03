@@ -60,7 +60,7 @@ describe('UserController', () => {
     const dto: CreateUserDto = {
       username: 'test@mail.com',
       password: 'password',
-      role: UserRole.Admin,
+      role: UserRole.ADMIN,
     };
     const result: unknown = { user: dto, token: 'fake-token' };
 
@@ -74,7 +74,7 @@ describe('UserController', () => {
     const dto: UpdateUserDto = {
       username: 'test@mail.com',
       password: 'password',
-      role: UserRole.Admin,
+      role: UserRole.ADMIN,
     };
     const result = { user: dto, token: 'fake-token' };
 

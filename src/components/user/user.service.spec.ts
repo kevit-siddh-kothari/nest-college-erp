@@ -62,7 +62,7 @@ describe('UserService', () => {
       const createUserDto: CreateUserDto = {
         username: 'test@mail.com',
         password: 'password',
-        role: UserRole.Admin,
+        role: UserRole.ADMIN,
       };
 
       jest.spyOn(userRepo, 'addUser').mockResolvedValue(undefined);
@@ -76,7 +76,7 @@ describe('UserService', () => {
       const createUserDto: CreateUserDto = {
         username: 'test@mail.com',
         password: 'password',
-        role: UserRole.Admin,
+        role: UserRole.ADMIN,
       };
 
       jest
